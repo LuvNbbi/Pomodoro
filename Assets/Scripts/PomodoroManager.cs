@@ -57,7 +57,6 @@ public class PomodoroManager : MonoBehaviour
         //setTimeText 초기설정
         ChangeSetTimeText();
     }
-
     void ChangeSetTimeText()
     {
         setTimeText.text = $"{setFocusTexts[currentLanguage]} - {ParseTime(setFocusTime)}\n{setBreakTexts[currentLanguage]} - {ParseTime(setBreakTime)}";
