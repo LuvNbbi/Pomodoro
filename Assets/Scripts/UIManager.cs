@@ -1,14 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     private static UIManager instance;
+    public SettingManager settingManager;
+    public UILanguageManager uiLanguageManager;
+
+    //UI들
+    //SettingPanel Text들
+    public TextMeshProUGUI settingPanelText;
+    public TextMeshProUGUI languagePanelText;
+    public TextMeshProUGUI currentLanguageText;
+    public TextMeshProUGUI soundPanelText;
+    public TextMeshProUGUI exitButtonText;
+    public TextMeshProUGUI closeButtonText;
+
+    //Pomodoro Text들
+    public TextMeshProUGUI focusText;
+    public TextMeshProUGUI setTimeText;
+    public TextMeshProUGUI playButtonText;
+    public TextMeshProUGUI stopButtonText;
+    public TextMeshProUGUI resetButtonText;
     public GameObject SettingPanel;
+    public TextMeshProUGUI focusTimeSetText;
+    public TextMeshProUGUI breakTimeSetText;
+    public TextMeshProUGUI focusTimeApplyText;
+    public TextMeshProUGUI breakTimeApplyText;
+    public TextMeshProUGUI loopButtonText;
+
+    //목표 Texts   
+    public TextMeshProUGUI toDoListPanelName;
+
+
+    public Dictionary<string, TextMeshProUGUI> textUINames;
+    public List<TMP_FontAsset> fontNames = new List<TMP_FontAsset>();
     // Start is called before the first frame update
     void Start()
     {
+        textUINames = new Dictionary<string, TextMeshProUGUI>()
+    {
+        {"SettingPanelText", settingPanelText},
+        {"LanguagePanelText", languagePanelText},
+        {"SoundPanelText", soundPanelText},
+        {"ExitButtonText", exitButtonText},
+        {"CloseButtonText", closeButtonText},
+        {"FocusText", focusText},
+        {"SetTimeText", setTimeText},
+        {"PlayButtonText", playButtonText},
+        {"StopButtonText", stopButtonText},
+        {"ResetButtonText", resetButtonText},
+        {"CurrentLanguageText", currentLanguageText},
+        {"FocusTimeSetText", focusTimeSetText},
+        {"BreakTimeSetText", breakTimeSetText},
+        {"FocusTimeApplyText", focusTimeApplyText},
+        {"BreakTimeApplyText", breakTimeApplyText},
+        {"LoopButtonText", loopButtonText},
+        {"ToDoListPanelName", toDoListPanelName},
+    };
 
     }
 
@@ -16,6 +67,15 @@ public class UIManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void ChangeUILanguage(int currentLanguage)
+    {
+        foreach (string key in textUINames.Keys)
+        {
+            textUINames[key].text = uiLanguageManager.GetUILanguage(key)[currentLanguage];
+            textUINames[key].font = fontNames[currentLanguage];
+        }
     }
 
     public void SettingPanelControl()

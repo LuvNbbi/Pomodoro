@@ -19,8 +19,11 @@ public class PomodoroManager : MonoBehaviour
     public GameObject breakInputField;
     public Image loopButtonImage;
 
-    public List<string> setFocusTexts = new List<string>() { "FocusTime", "집중 시간" };
-    public List<string> setBreakTexts = new List<string>() { "BreakTime", "휴식 시간" };
+    //언어들
+    public List<string> focusTexts = new List<string>() { "Focus", "집중", "集中" };
+    public List<string> breakTexts = new List<string>() { "Break", "휴식", "休息" };
+    public List<string> stopTexts = new List<string>() {"Stop","일시정지", "止める" };
+    public List<string> restartTexts = new List<string>() {"Restart", "재시작", "リスタート"};
 
     //변수들
     public int setFocusTime;
@@ -29,7 +32,6 @@ public class PomodoroManager : MonoBehaviour
     public bool isPlay;
     public bool isLoop;
     public bool isFocus;
-    public int currentLanguage;
 
     //
     public SettingManager settingManager;
@@ -42,7 +44,6 @@ public class PomodoroManager : MonoBehaviour
         setFocusTime = 10;
         setBreakTime = 5;
         settingManager.SetCurrentLanguage(1);
-        currentLanguage = settingManager.GetCurrentLanguage();
         TMP_InputField focusMinute = focusInputField.transform.Find("MinuteInput").GetComponent<TMP_InputField>();
         TMP_InputField focusSecond = focusInputField.transform.Find("SecondInput").GetComponent<TMP_InputField>();
         focusMinute.text = "00";
@@ -59,7 +60,7 @@ public class PomodoroManager : MonoBehaviour
     }
     void ChangeSetTimeText()
     {
-        setTimeText.text = $"{setFocusTexts[currentLanguage]} - {ParseTime(setFocusTime)}\n{setBreakTexts[currentLanguage]} - {ParseTime(setBreakTime)}";
+        setTimeText.text = $"{ParseTime(setFocusTime)}\n{ParseTime(setBreakTime)}";
 
     }
 
@@ -98,7 +99,7 @@ public class PomodoroManager : MonoBehaviour
                 {
                     //소리가 나고 isFocus = false
                     isFocus = false;
-                    focusText.text = "휴식";
+                    focusText.text = breakTexts[settingManager.GetCurrentLanguage()];
                     currentTime = 0;
                     SetCurrentTimeText();
                 }
@@ -110,7 +111,7 @@ public class PomodoroManager : MonoBehaviour
                 {
                     //소릭 나고 isFocus = true
                     isFocus = true;
-                    focusText.text = "집중";
+                    focusText.text = focusTexts[settingManager.GetCurrentLanguage()];
                     currentTime = 0;
                     SetCurrentTimeText();
                 }
@@ -247,11 +248,11 @@ public class PomodoroManager : MonoBehaviour
         TextMeshProUGUI text = stopButtonPanel.transform.Find("StopButton").Find("Text").GetComponent<TextMeshProUGUI>();
         if (isPlay)
         {
-            text.text = "일시정지";
+            text.text = stopTexts[settingManager.GetCurrentLanguage()];
         }
         else
         {
-            text.text = "재시작";
+            text.text = restartTexts[settingManager.GetCurrentLanguage()];
         }
     }
     public void SettingButtonClicked()
