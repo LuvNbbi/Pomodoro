@@ -33,6 +33,18 @@ public class UIManager : MonoBehaviour
 
     //목표 Texts   
     public TextMeshProUGUI toDoListPanelName;
+    //목표 추가 UI
+    public GameObject AddToDoListPanel;
+    //목표 추가하기 Text
+    public TextMeshProUGUI toDoListAddPanelName;
+    public TextMeshProUGUI toDoNameText;
+    public TextMeshProUGUI toDoNameInputFieldPlace;
+    public TextMeshProUGUI toDoNameInputFieldText;
+    public TextMeshProUGUI startDayText;
+    public TextMeshProUGUI endDayText;
+    public TextMeshProUGUI rangeText;
+    public TextMeshProUGUI backButtonText;
+    public TextMeshProUGUI addButtonText;
 
 
     public Dictionary<string, TextMeshProUGUI> textUINames;
@@ -59,9 +71,18 @@ public class UIManager : MonoBehaviour
         {"BreakTimeApplyText", breakTimeApplyText},
         {"LoopButtonText", loopButtonText},
         {"ToDoListPanelName", toDoListPanelName},
+        {"ToDoNameText", toDoNameText},
+        {"ToDoNameInputFieldPlace", toDoNameInputFieldPlace},
+        {"ToDoNameInputFieldText", toDoNameInputFieldText},
+        {"StartDayText", startDayText},
+        {"EndDayText", endDayText},
+        {"RangeText", rangeText},
+        {"BackButtonText", backButtonText},
+        {"AddButtonText", addButtonText},
     };
 
     }
+
 
     // Update is called once per frame
     void Update()
@@ -81,6 +102,11 @@ public class UIManager : MonoBehaviour
     public void SettingPanelControl()
     {
         SettingPanel.SetActive(!SettingPanel.activeSelf);
+    }
+
+    public void AddToDoListPanelControl()
+    {
+        AddToDoListPanel.SetActive(!AddToDoListPanel.activeSelf);
     }
     //싱글턴을 위한 Awake메서드
     void Awake()

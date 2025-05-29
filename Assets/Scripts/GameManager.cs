@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         uiManager = UIManager.GetInstance();
+        //게임 시작 시 정보 불러오기
     }
 
     void Update()
