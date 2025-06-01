@@ -21,3 +21,20 @@ public class UserSetting
     public int sound;
     public int language;
 }
+[Serializable]
+public class PlayerInfo
+{
+    public int money;
+    public int level;
+    public int exp;
+    public Dictionary<string, List<Item>> furnitures;
+    public List<Item> inventory;
+}
+
+[Serializable]
+public class Item
+{
+    public List<string> name;
+    public string type;
+    public Dictionary<string, List<string>> info; // {목표 이름, 시작 날짜, 완료 날짜, 코멘트}
+}
