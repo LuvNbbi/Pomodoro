@@ -1,0 +1,17 @@
+{
+  "TeddyBear" : {
+    "name" : ["TeddyBear","곰인형","テディベア"],
+    "price" : 0,
+    "level" : 1
+  },
+  "FlowerVase" : {
+    "name" : ["FlowerVase","꽃병","花瓶"],
+    "price" : 0,
+    "level" : 1
+  },
+  "Books" : {
+    "name" : ["Books","책","本"],
+    "price" : 100,
+    "level" : 1
+  }
+}

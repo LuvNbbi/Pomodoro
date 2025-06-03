@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 [Serializable]
@@ -27,14 +28,34 @@ public class PlayerInfo
     public int money;
     public int level;
     public int exp;
-    public Dictionary<string, List<Item>> furnitures;
-    public List<Item> inventory;
+    public Dictionary<string, PlacedFurnitureInfo> furnitures;
+    public List<DecorItem> decorInventory;
+    public Dictionary<string, bool> decor;
+    public UserSetting userSetting;
+}
+[Serializable]
+public class PlacedFurnitureInfo
+{
+    public string prefabName;
+    public float x;
+    public float y;
+    public int siblingIndex;
+    public Dictionary<string, DecorItem> placedItems;
+}
+[Serializable]
+public class Decor
+{
+    public List<string> name;
+    public int price;
+    public int level;
 }
 
 [Serializable]
-public class Item
+public class DecorItem
 {
-    public List<string> name;
-    public string type;
-    public Dictionary<string, List<string>> info; // {목표 이름, 시작 날짜, 완료 날짜, 코멘트}
+    public string name;
+    public string spriteName;
+    public string startDate;
+    public string endDate;
+    public string memo;
 }

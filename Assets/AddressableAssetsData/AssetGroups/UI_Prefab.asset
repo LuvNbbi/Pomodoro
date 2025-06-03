@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3e809d4f5ac92c14e80708cd51c7dfe6
   m_SerializeEntries:
+  - m_GUID: 04c579aceed8bf34993d33238c2624a3
+    m_Address: DecorList
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 97a8976d558421240ad1b20a5c82ca99
     m_Address: ToDoList
     m_ReadOnly: 0

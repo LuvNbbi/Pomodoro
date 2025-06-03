@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 
 public class ToDoListManager : MonoBehaviour
 {
+    private static ToDoListManager instance;
     public UIManager uiManager;
     public GameObject ToDoContent;
     public TMP_InputField toDoNameInputField;
@@ -19,6 +20,7 @@ public class ToDoListManager : MonoBehaviour
     public TMP_Dropdown endYearDropDown;
     public TMP_Dropdown endMonthDropDown;
     public TMP_Dropdown endDayDropDown;
+    public ToDoList toDoListToDecoInfo;
     public string toDoName;
     public int startYear;
     public int startMonth;
@@ -28,6 +30,12 @@ public class ToDoListManager : MonoBehaviour
     public int endDay;
     public int startRangeValue = 0;
     public int endRangeValue = 1000;
+
+    public void SetTodoListToDecoInfo(ToDoList selectedToDoList)
+    {
+        toDoListToDecoInfo = selectedToDoList;
+        Debug.Log($"{toDoListToDecoInfo.toDoName} 설정완료");
+    }
 
     public void GetAddInfo()
     {
@@ -41,6 +49,10 @@ public class ToDoListManager : MonoBehaviour
         Debug.Log($"ToDoName {toDoName} // startDate {startYear}.{startMonth}.{startDay} // endDate {endYear}.{endMonth}.{endDay}");
     }
 
+    public void DelToDoList()
+    {
+        
+    }
     public void AddToDoButtonClicked()
     {
         //입력된 정보를 가져옴
@@ -62,7 +74,7 @@ public class ToDoListManager : MonoBehaviour
 
         //StartDateTExt
         TextMeshProUGUI startDateText = toDoList.transform.Find("StartDateText").GetComponent<TextMeshProUGUI>();
-        startDateText.text = DateParse(startYear, startMonth, startDay);
+        startDateText.text = GameManager.GetInstance().DateParse(startYear, startMonth, startDay);
         script.toDoListInfo.startDate = startDateText.text;
         startYearDropDown.value = 0;
         startMonthDropDown.value = 0;
@@ -70,7 +82,7 @@ public class ToDoListManager : MonoBehaviour
 
         //EndDateText
         TextMeshProUGUI endDateText = toDoList.transform.Find("EndDateText").GetComponent<TextMeshProUGUI>();
-        endDateText.text = DateParse(endYear, endMonth, endDay);
+        endDateText.text = GameManager.GetInstance().DateParse(endYear, endMonth, endDay);
         script.toDoListInfo.endDate = endDateText.text;
         endYearDropDown.value = 0;
         endMonthDropDown.value = 0;
@@ -95,21 +107,6 @@ public class ToDoListManager : MonoBehaviour
         uiManager.AddToDoListPanelControl();
 
     }
-    string DateParse(int year, int month, int day)
-    {
-        string str = year + ".";
-        if (month / 10 > 0)
-        {
-            str += "0";
-        }
-        str += month + ".";
-        if (day / 10 > 0)
-        {
-            str += "0";
-        }
-        str += day;
-        return str;
-    }
     void Start()
     {
     }
@@ -121,5 +118,16 @@ public class ToDoListManager : MonoBehaviour
         {
             GetAddInfo();
         }
+    }
+    //싱글턴의 Instance를 가져오는 메서드
+    public static ToDoListManager GetInstance()
+    {
+        if (instance == null)
+        {
+            GameObject obj = new GameObject("ToDoListManager");
+            instance = obj.AddComponent<ToDoListManager>();
+            DontDestroyOnLoad(obj);
+        }
+        return instance;
     }
 }

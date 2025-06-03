@@ -7,12 +7,13 @@ using UnityEngine.UI;
 public class ToDoListScript : MonoBehaviour
 {
     public ToDoList toDoListInfo;
+    public GameObject createDecoPanel;
     public Button completeButton;
     public GameObject addLibraryObject;
     public Button addLibraryButton;
     public Button deleteButton;
     public Image Check;
-    
+
     void Start()
     {
         completeButton = transform.Find("CompleteButton").GetComponent<Button>();
@@ -23,6 +24,7 @@ public class ToDoListScript : MonoBehaviour
         addLibraryButton.onClick.AddListener(AddLibraryButtonClicked);
         deleteButton = transform.Find("DeleteButton").GetComponent<Button>();
         deleteButton.onClick.AddListener(DeleteButtonClicked);
+        createDecoPanel = GameObject.Find("Canvas").transform.Find("CreateDecoPanelBack/CreateDecoPanel").gameObject;
     }
 
     void CompleteButtonClicked()
@@ -41,7 +43,10 @@ public class ToDoListScript : MonoBehaviour
 
     void AddLibraryButtonClicked()
     {
-        Debug.Log("책장에 추가");
+        createDecoPanel.GetComponent<CreateDecoPanelScript>().SetPanel(toDoListInfo);
+        createDecoPanel.GetComponent<CreateDecoPanelScript>().SetToDoObject(gameObject);
+        createDecoPanel.GetComponent<CreateDecoPanelScript>().SetImage("FlowerVase");
+        createDecoPanel.SetActive(true);
     }
 
     void DeleteButtonClicked()

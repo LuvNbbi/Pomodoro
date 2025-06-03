@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Furniture_Prefabs
+  m_EditorClassIdentifier: 
+  m_GroupName: Furniture_Prefabs
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 4947708be5682e44c8c68caf71ef585c
+  m_SerializeEntries:
+  - m_GUID: 36b743f1862f2c448954d5f533484de3
+    m_Address: BookShelf_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9fcbd08d98db45f4eaefdfc8cce8c866
+    m_Address: Window
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f943e4d0bcf73f449ad8e474734c7d76, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 70a0842159047554291fef5fb32956fc, type: 2}
+    - {fileID: 11400000, guid: 5730fd3ebb6dea84a9d67707591e7405, type: 2}
