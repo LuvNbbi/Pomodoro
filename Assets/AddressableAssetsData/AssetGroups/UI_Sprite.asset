@@ -17,6 +17,31 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 01a9001936f2aa246acc948860369d34
   m_SerializeEntries:
+  - m_GUID: 301a88665c94cc448967a57b66195762
+    m_Address: AllIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54cd35f3f9151fd4083e335da965087c
+    m_Address: PlayIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e5f38e8ac3394c45a5d5334f7d67921
+    m_Address: PauseIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a32fdc630c21dc749b431798179d8f17
+    m_Address: NoneIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3d2aed43d3599f40be89fd65d3c9f3a
+    m_Address: OneIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e971ca807cebbbc40b8ce56ac2dc6a65
     m_Address: CheckImage
     m_ReadOnly: 0

@@ -13,6 +13,7 @@ public class PomodoroManager : MonoBehaviour
     public GameObject stopButtonPanel;
     public GameObject playButton;
     public GameObject pomodoroSettingPanel;
+    public AudioSource effectAudioSource;
 
     //세팅 패널 관련
     public GameObject focusInputField;
@@ -98,6 +99,7 @@ public class PomodoroManager : MonoBehaviour
                 if (currentTime > setFocusTime)
                 {
                     //소리가 나고 isFocus = false
+                    effectAudioSource.Play();
                     isFocus = false;
                     focusText.text = breakTexts[settingManager.GetCurrentLanguage()];
                     currentTime = 0;
@@ -110,6 +112,7 @@ public class PomodoroManager : MonoBehaviour
                 if (currentTime > setBreakTime)
                 {
                     //소릭 나고 isFocus = true
+                    effectAudioSource.Play();
                     isFocus = true;
                     focusText.text = focusTexts[settingManager.GetCurrentLanguage()];
                     currentTime = 0;
