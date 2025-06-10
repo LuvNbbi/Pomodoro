@@ -26,6 +26,10 @@ public class ToDoListScript : MonoBehaviour
         deleteButton.onClick.AddListener(DeleteButtonClicked);
         createDecoPanel = GameObject.Find("Canvas").transform.Find("CreateDecoPanelBack/CreateDecoPanel").gameObject;
     }
+    public ToDoList GetToDoListInfo()
+    {
+        return toDoListInfo;
+    }
 
     void CompleteButtonClicked()
     {
@@ -57,6 +61,6 @@ public class ToDoListScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

@@ -25,6 +25,7 @@ public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
             decorImage.sprite = Addressables.LoadAssetAsync<Sprite>(decorItem.spriteName).WaitForCompletion();
             decorNameText.text = decorItem.name;
             GameManager.GetInstance().playerInfo.furnitures[gameObject.transform.parent.name].placedItems.Add(placedIndex, decorItem);
+            GameManager.GetInstance().playerInfo.toDoLists.Remove(decorItem.name);
             GameManager.GetInstance().SavePlayerInfo();
             GameManager.GetInstance().EndPlaceMode();
             isPlaced = true;
@@ -32,6 +33,7 @@ public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
         else
         {
             //상세 정보가 보이는 UI를 킴
+            ToDoListManager.GetInstance().SetDecorInfoPanel(decorItem);
         }
     }
 

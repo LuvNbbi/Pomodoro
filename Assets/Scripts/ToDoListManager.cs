@@ -31,33 +31,64 @@ public class ToDoListManager : MonoBehaviour
     public int startRangeValue = 0;
     public int endRangeValue = 1000;
 
+    public GameObject decorInfoPanel;
+    public Image decorInfoImage;
+    public TextMeshProUGUI decorInfoToDoNameTexts;
+    public TextMeshProUGUI decorInfoDateText;
+    public TextMeshProUGUI decorInfoMemoTexts;
+
     public void SetTodoListToDecoInfo(ToDoList selectedToDoList)
     {
         toDoListToDecoInfo = selectedToDoList;
         Debug.Log($"{toDoListToDecoInfo.toDoName} 설정완료");
     }
 
-    public void GetAddInfo()
+    public ToDoList GetAddInfo()
     {
-        toDoName = toDoNameInputField.text;
         startYear = int.Parse(startYearDropDown.options[startYearDropDown.value].text);
         startMonth = int.Parse(startMonthDropDown.options[startMonthDropDown.value].text);
         startDay = int.Parse(startDayDropDown.options[startDayDropDown.value].text);
         endYear = int.Parse(endYearDropDown.options[endYearDropDown.value].text);
         endMonth = int.Parse(endMonthDropDown.options[endMonthDropDown.value].text);
         endDay = int.Parse(endDayDropDown.options[endDayDropDown.value].text);
+
+        ToDoList toDoList = new ToDoList() { };
+        toDoList.toDoName = toDoNameInputField.text;
+        toDoList.startDate = GameManager.GetInstance().DateParse(startYear, startMonth, startDay);
+        toDoList.endDate = GameManager.GetInstance().DateParse(endYear, endMonth, endDay);
+        toDoList.startRange = 0;
+        toDoList.endRange = 100;
+        toDoList.nowRange = 0;
+        toDoList.isComplete = false;
+
         Debug.Log($"ToDoName {toDoName} // startDate {startYear}.{startMonth}.{startDay} // endDate {endYear}.{endMonth}.{endDay}");
+
+        return toDoList;
     }
 
     public void DelToDoList()
     {
-        
-    }
-    public void AddToDoButtonClicked()
-    {
-        //입력된 정보를 가져옴
-        GetAddInfo();
 
+    }
+
+    public void SetDecorInfoPanel(DecorItem selectDecor)
+    {
+        if (decorInfoImage == null)
+        {
+            Debug.Log($"decorInfoImage가 null입니다.");
+        }
+        decorInfoImage.sprite = Addressables.LoadAssetAsync<Sprite>(selectDecor.spriteName).WaitForCompletion();
+        decorInfoToDoNameTexts.text = selectDecor.name;
+        decorInfoDateText.text = selectDecor.startDate + " ~ " + selectDecor.endDate;
+        decorInfoMemoTexts.text = selectDecor.memo;
+        DecorInfoPanelControl();
+    }
+    public void DecorInfoPanelControl()
+    {
+        decorInfoPanel.SetActive(!decorInfoPanel.activeSelf);
+    }
+    public void CreateToDoListObject(ToDoList changeToDoList)
+    {
         //프리팹으로 오브젝트 생성
         GameObject toDoList = Addressables.InstantiateAsync("ToDoList").WaitForCompletion();
 
@@ -68,45 +99,59 @@ public class ToDoListManager : MonoBehaviour
 
         //ToDoNameText
         TextMeshProUGUI toDoNameText = toDoList.transform.Find("ToDoNameText").GetComponent<TextMeshProUGUI>();
-        toDoNameText.text = toDoName;
-        script.toDoListInfo.toDoName = toDoName;
+        toDoNameText.text = changeToDoList.toDoName;
+        script.toDoListInfo.toDoName = changeToDoList.toDoName;
         toDoNameInputField.text = "";
 
         //StartDateTExt
         TextMeshProUGUI startDateText = toDoList.transform.Find("StartDateText").GetComponent<TextMeshProUGUI>();
-        startDateText.text = GameManager.GetInstance().DateParse(startYear, startMonth, startDay);
-        script.toDoListInfo.startDate = startDateText.text;
+        startDateText.text = changeToDoList.startDate;
+        script.toDoListInfo.startDate = changeToDoList.startDate;
         startYearDropDown.value = 0;
         startMonthDropDown.value = 0;
         startDayDropDown.value = 0;
 
         //EndDateText
         TextMeshProUGUI endDateText = toDoList.transform.Find("EndDateText").GetComponent<TextMeshProUGUI>();
-        endDateText.text = GameManager.GetInstance().DateParse(endYear, endMonth, endDay);
-        script.toDoListInfo.endDate = endDateText.text;
+        endDateText.text = changeToDoList.endDate;
+        script.toDoListInfo.endDate = changeToDoList.endDate;
         endYearDropDown.value = 0;
         endMonthDropDown.value = 0;
         endDayDropDown.value = 0;
         //StartRange
         TextMeshProUGUI startRange = toDoList.transform.Find("StartRange").GetComponent<TextMeshProUGUI>();
-        script.toDoListInfo.startRange = startRangeValue;
-        startRange.text = startRangeValue.ToString();
+        script.toDoListInfo.startRange = changeToDoList.startRange;
+        startRange.text = changeToDoList.startRange.ToString();
         //EndRange
         TextMeshProUGUI endRange = toDoList.transform.Find("EndRange").GetComponent<TextMeshProUGUI>();
-        script.toDoListInfo.endRange = endRangeValue;
-        endRange.text = endRangeValue.ToString();
+        script.toDoListInfo.endRange = changeToDoList.endRange;
+        endRange.text = changeToDoList.endRange.ToString();
         //RangeSlider
         Slider rangeSlider = toDoList.transform.Find("RangeSlider").GetComponent<Slider>();
-        rangeSlider.minValue = startRangeValue;
-        rangeSlider.maxValue = endRangeValue;
+        rangeSlider.minValue = changeToDoList.startRange;
+        rangeSlider.maxValue = changeToDoList.endRange;
 
         //목표 content에 추가
         toDoList.transform.SetParent(ToDoContent.transform, false);
+    }
+    public void AddToDoButtonClicked()
+    {
+        if (GameManager.GetInstance().playerInfo.toDoLists.ContainsKey(toDoNameInputField.text))
+        {
+            Debug.Log("같은 이름의 목표가 있습니다");
+            return;
+        }
+        ToDoList to = GetAddInfo();
+        //입력된 정보를 가져옴
+        CreateToDoListObject(to);
+
+        //플레이어 정보 Json에 추가
+        GameManager.GetInstance().SaveToDoList(to);
 
         //패널 닫음
         uiManager.AddToDoListPanelControl();
-
     }
+
     void Start()
     {
     }
@@ -117,6 +162,19 @@ public class ToDoListManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             GetAddInfo();
+        }
+    }
+    //싱글턴을 위한 Awake메서드
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
     //싱글턴의 Instance를 가져오는 메서드

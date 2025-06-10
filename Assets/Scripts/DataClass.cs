@@ -28,6 +28,7 @@ public class PlayerInfo
     public int money;
     public int level;
     public int exp;
+    public Dictionary<string, ToDoList> toDoLists;
     public Dictionary<string, PlacedFurnitureInfo> furnitures;
     public List<DecorItem> decorInventory;
     public Dictionary<string, bool> decor;

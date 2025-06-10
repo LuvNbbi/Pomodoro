@@ -31,7 +31,11 @@ public class GameManager : MonoBehaviour
         isPlaceMode = true;
         followMouse.ShowFollowImage(placeDecorItem.spriteName);
     }
-
+    public void SaveToDoList(ToDoList toDoList)
+    {
+        playerInfo.toDoLists.Add(toDoList.toDoName, toDoList);
+        SavePlayerInfo();
+    }
     private T JsonLoad<T>(string jsonName)
     {
         // 파일 경로 만들기
@@ -48,6 +52,7 @@ public class GameManager : MonoBehaviour
                     money = 0,
                     level = 1,
                     exp = 0,
+                    toDoLists = new Dictionary<string, ToDoList>() { },
                     furnitures = new Dictionary<string, PlacedFurnitureInfo>()
                     {
                         {"BookShelf_001",new PlacedFurnitureInfo(){
@@ -72,7 +77,7 @@ public class GameManager : MonoBehaviour
                             prefabName = "Window",
                             x = 0f,
                             y = 5f,
-            
+
                         }
                         }
 
@@ -150,6 +155,18 @@ public class GameManager : MonoBehaviour
         decorDict = GetDictionaryJson<Dictionary<string, Decor>>("DecorDictionary");
         isPlaceMode = false;
         mainCamera = Camera.main;
+
+        List<ToDoList> savedToDoList = new List<ToDoList>() { };
+        foreach (string key in playerInfo.toDoLists.Keys)
+        {
+            savedToDoList.Add(playerInfo.toDoLists[key]);
+        }
+
+        //불러온 playerInfo로 목표 배치
+        foreach (ToDoList info in savedToDoList)
+        {
+            ToDoListManager.GetInstance().CreateToDoListObject(info);
+        }
 
         List<PlacedFurnitureInfo> placedFurnitures = new List<PlacedFurnitureInfo>();
         foreach (string key in playerInfo.furnitures.Keys)
