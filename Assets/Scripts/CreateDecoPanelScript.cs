@@ -118,6 +118,7 @@ public class CreateDecoPanelScript : MonoBehaviour
     {
         //GameManager의 PlayerInfo의 Inventory에 넣기
         GameManager.GetInstance().AddInventory(CreateDecorItem());
+        //GotDecorListScroll => Viewport => Content에 GotDecorList 프리팹 생성
         ResetFields();
         Destroy(currentTodoListObj);
         transform.parent.gameObject.SetActive(false);

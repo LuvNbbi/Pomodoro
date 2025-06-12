@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    public GotDecorListScrollScript gotDecorListScrollScript;
     public PlayerInfo playerInfo;
     public Dictionary<string, Decor> decorDict;
     UIManager uiManager;
