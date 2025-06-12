@@ -9,6 +9,7 @@ public class GotDecorListScript : MonoBehaviour, IPointerEnterHandler, IPointerE
 {
     public DecorItem decorItem;
     public GameObject overviewPanel;
+    public int index;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -27,9 +28,10 @@ public class GotDecorListScript : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         decorItem = chgDecorItem;
     }
-    public void SetObject(DecorItem chgDecorItem)
+    public void SetObject(DecorItem chgDecorItem, int i)
     {
         decorItem = chgDecorItem;
+        index = i;
         //장식 이름 넣기
         TextMeshProUGUI tmp = transform.Find("DecorNameText").GetComponent<TextMeshProUGUI>();
         tmp.text = decorItem.name;
@@ -48,6 +50,17 @@ public class GotDecorListScript : MonoBehaviour, IPointerEnterHandler, IPointerE
         tmp.text = decorItem.memo;
     }
 
+    public void RemoveButtonClicked()
+    {
+        GameManager.GetInstance().RemoveGotDecorList(index);
+    }
+    public void PlaceButtonClicked()
+    {
+        GameManager.GetInstance().PlaceDecorItem(decorItem);
+        GameManager.GetInstance().placeGotDecorList = GetComponent<GotDecorListScript>();
+        GameManager.GetInstance().isPlaceToBag = true;
+        UIManager.GetInstance().BagPanelControl();
+    }
     void Start()
     {
         overviewPanel = transform.Find("OverviewPanel").gameObject;

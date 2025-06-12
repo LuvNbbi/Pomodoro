@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public GotDecorListScrollScript gotDecorListScrollScript;
+    public GotDecorListScript placeGotDecorList;
     public PlayerInfo playerInfo;
     public Dictionary<string, Decor> decorDict;
     UIManager uiManager;
@@ -18,7 +19,33 @@ public class GameManager : MonoBehaviour
     private Camera mainCamera;
     public Vector2 mousePos;
     public bool isPlaceMode;
+    public bool isPlaceToBag;
     public DecorItem placeDecorItem = new DecorItem();
+
+    public Dictionary<string, Decor> GetDecorDict()
+    {
+        return decorDict;
+    }
+    public void RemoveGotDecorList(int index)
+    {
+        playerInfo.decorInventory.RemoveAt(index);
+        SavePlayerInfo();
+        gotDecorListScrollScript.RefreshDecorList();
+    }
+    public void IncreaseGameMoney(int money)
+    {
+        playerInfo.money += money;
+        SavePlayerInfo();
+    }
+    public void DecreaseGameMoney(int money)
+    {
+        playerInfo.money -= money;
+        SavePlayerInfo();
+    }
+    public List<DecorItem> GetDecorInventory()
+    {
+        return playerInfo.decorInventory;
+    }
     public void EndPlaceMode()
     {
         isPlaceMode = false;
@@ -155,6 +182,7 @@ public class GameManager : MonoBehaviour
         playerInfo = JsonLoad<PlayerInfo>("PlayerInfo");
         decorDict = GetDictionaryJson<Dictionary<string, Decor>>("DecorDictionary");
         isPlaceMode = false;
+        isPlaceToBag = false;
         mainCamera = Camera.main;
 
         List<ToDoList> savedToDoList = new List<ToDoList>() { };
@@ -217,6 +245,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        //장식 인벤토리 초기화
+        gotDecorListScrollScript.RefreshDecorList();
+
+        //돈 UI 초기화
+        UIManager.GetInstance().RefreshMoney();
     }
 
     void Update()

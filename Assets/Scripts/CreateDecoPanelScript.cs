@@ -116,9 +116,14 @@ public class CreateDecoPanelScript : MonoBehaviour
     }
     public void ToBagButtonClicked()
     {
+        DecorItem decorItem = CreateDecorItem();
         //GameManager의 PlayerInfo의 Inventory에 넣기
-        GameManager.GetInstance().AddInventory(CreateDecorItem());
+        GameManager.GetInstance().AddInventory(decorItem);
         //GotDecorListScroll => Viewport => Content에 GotDecorList 프리팹 생성
+        GameManager.GetInstance().gotDecorListScrollScript.RefreshDecorList();
+        //플레이어 정보의 ToDo에서 삭제
+        GameManager.GetInstance().playerInfo.toDoLists.Remove(decorItem.name);
+        GameManager.GetInstance().SavePlayerInfo();
         ResetFields();
         Destroy(currentTodoListObj);
         transform.parent.gameObject.SetActive(false);
@@ -131,6 +136,10 @@ public class CreateDecoPanelScript : MonoBehaviour
     }
     public void ResetFields()
     {
+        if (toDoNameInputField == null)
+        {
+            return;
+        }
         toDoNameInputField.text = "";
         startDateText.text = "";
         endYearDropDown.value = 0;

@@ -46,6 +46,15 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI backButtonText;
     public TextMeshProUGUI addButtonText;
 
+    //가방 UI
+    public GameObject bagPanel;
+
+    //게임 머니 UI
+    public TextMeshProUGUI moneyUI;
+
+    //상점 ui
+    public GameObject shopPanel;
+
 
     public Dictionary<string, TextMeshProUGUI> textUINames;
     public List<TMP_FontAsset> fontNames = new List<TMP_FontAsset>();
@@ -89,7 +98,19 @@ public class UIManager : MonoBehaviour
     {
 
     }
+    public void ShopPanelControl()
+    {
+        shopPanel.SetActive(!shopPanel.activeSelf);
+    }
+    public void RefreshMoney()
+    {
+        moneyUI.text = GameManager.GetInstance().playerInfo.money.ToString();
+    }
 
+    public void BagPanelControl()
+    {
+        bagPanel.SetActive(!bagPanel.activeSelf);
+    }
     public void ChangeUILanguage(int currentLanguage)
     {
         foreach (string key in textUINames.Keys)

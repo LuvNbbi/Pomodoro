@@ -1,16 +1,19 @@
 {
   "TeddyBear" : {
     "name" : ["TeddyBear","곰인형","テディベア"],
+    "spriteName" : "TeddyBear",
     "price" : 0,
     "level" : 1
   },
   "FlowerVase" : {
     "name" : ["FlowerVase","꽃병","花瓶"],
+    "spriteName" : "FlowerVase",
     "price" : 0,
     "level" : 1
   },
   "Books" : {
     "name" : ["Books","책","本"],
+    "spriteName" : "Books",
     "price" : 100,
     "level" : 1
   }

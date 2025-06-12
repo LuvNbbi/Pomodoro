@@ -254,7 +254,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1158325597059475235}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8615301485985048327}
+        m_TargetAssemblyTypeName: GotDecorListScript, Assembly-CSharp
+        m_MethodName: RemoveButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1753055781856491300
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,7 +493,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -773,6 +785,7 @@ MonoBehaviour:
     endDate: 
     memo: 
   overviewPanel: {fileID: 0}
+  index: 0
 --- !u!1 &3336199679508357943
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +798,7 @@ GameObject:
   - component: {fileID: 1987118562125932051}
   - component: {fileID: 8412264031169655057}
   - component: {fileID: 8102736355081255595}
+  - component: {fileID: 7258172621934887716}
   m_Layer: 5
   m_Name: OverviewPanel
   m_TagString: Untagged
@@ -867,6 +881,29 @@ MonoBehaviour:
   m_EffectColor: {r: 0.7960785, g: 0.6745098, b: 0.5372549, a: 1}
   m_EffectDistance: {x: 4, y: 4}
   m_UseGraphicAlpha: 1
+--- !u!223 &7258172621934887716
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3336199679508357943}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &6407812596281516161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,7 +1158,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8476406563557312384}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8615301485985048327}
+        m_TargetAssemblyTypeName: GotDecorListScript, Assembly-CSharp
+        m_MethodName: PlaceButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8004700623088676100
 GameObject:
   m_ObjectHideFlags: 0

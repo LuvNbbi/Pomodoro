@@ -62,7 +62,6 @@ public class PomodoroManager : MonoBehaviour
     void ChangeSetTimeText()
     {
         setTimeText.text = $"{ParseTime(setFocusTime)}\n{ParseTime(setBreakTime)}";
-
     }
 
     string ParseTime(int second)
@@ -104,6 +103,18 @@ public class PomodoroManager : MonoBehaviour
                     focusText.text = breakTexts[settingManager.GetCurrentLanguage()];
                     currentTime = 0;
                     SetCurrentTimeText();
+
+                    int increaseMoney = 0;
+                    //1분마다 게임 머니 10 1분 이하일 경우 X
+                    if (setFocusTime >= 60)
+                    {
+                        increaseMoney = 10 * (setFocusTime / 60);
+                    }
+
+                    //게임 머니를 얻음
+                    GameManager.GetInstance().IncreaseGameMoney(increaseMoney);
+                    //게임 머니 UI 새로고침
+                    UIManager.GetInstance().RefreshMoney();
                 }
             }
             //집중이 아니라 휴식 시간이라면

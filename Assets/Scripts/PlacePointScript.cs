@@ -28,6 +28,13 @@ public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
             GameManager.GetInstance().playerInfo.toDoLists.Remove(decorItem.name);
             GameManager.GetInstance().SavePlayerInfo();
             GameManager.GetInstance().EndPlaceMode();
+
+            //가방에서 가져왔을경우 가방의 장식을 삭제
+            if (GameManager.GetInstance().isPlaceToBag)
+            {
+                GameManager.GetInstance().RemoveGotDecorList(GameManager.GetInstance().placeGotDecorList.index);
+                GameManager.GetInstance().isPlaceToBag = false;
+            }
             isPlaced = true;
         }
         else

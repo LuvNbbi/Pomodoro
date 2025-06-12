@@ -47,6 +47,7 @@ public class PlacedFurnitureInfo
 public class Decor
 {
     public List<string> name;
+    public string spriteName;
     public int price;
     public int level;
 }
