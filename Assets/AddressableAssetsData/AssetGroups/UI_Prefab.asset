@@ -22,6 +22,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2811981a45eeb044a9664476790e9896
+    m_Address: ClothesSlot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7248d5ddfd82d6c4c8397ae1cd3d7543
+    m_Address: HairSlot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 97a8976d558421240ad1b20a5c82ca99
     m_Address: ToDoList
     m_ReadOnly: 0

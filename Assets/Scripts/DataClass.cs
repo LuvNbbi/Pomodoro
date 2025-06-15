@@ -28,6 +28,11 @@ public class PlayerInfo
     public int money;
     public int level;
     public int exp;
+    public string hair;
+    public string clothes;
+    public string backGround;
+    public List<int> gotHairs;
+    public List<int> gotClothes;
     public Dictionary<string, ToDoList> toDoLists;
     public Dictionary<string, PlacedFurnitureInfo> furnitures;
     public List<DecorItem> decorInventory;
@@ -60,4 +65,14 @@ public class DecorItem
     public string startDate;
     public string endDate;
     public string memo;
+}
+[Serializable]
+public class StyleItem
+{
+    public string type;
+    public string name;
+    public string spriteName;
+    public int price;
+    public bool isOwned;
+    public int index;
 }

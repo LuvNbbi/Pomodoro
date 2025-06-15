@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Character_Clothes
+  m_EditorClassIdentifier: 
+  m_GroupName: Character_Clothes
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 47eed9085ad763d419df8dd264001022
+  m_SerializeEntries:
+  - m_GUID: 7cfa72df6f858174ca8728bdbe939b6f
+    m_Address: Clothes_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d39c0959fb52e1d4c8aec65257914328
+    m_Address: Clothes_000
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f943e4d0bcf73f449ad8e474734c7d76, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 5bf4b2fc207749d42b41f57fb3c2bd54, type: 2}
+    - {fileID: 11400000, guid: aaa030acd5aceb94d8ae8dcb1f617b84, type: 2}

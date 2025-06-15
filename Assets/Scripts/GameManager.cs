@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Newtonsoft.Json;
 using System.IO;
+using UnityEngine.UI;
 using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    public HairScrollView hairScrollView;
+    public ClothesScrollView clothesScrollView;
     public GotDecorListScrollScript gotDecorListScrollScript;
     public GotDecorListScript placeGotDecorList;
     public PlayerInfo playerInfo;
@@ -21,10 +24,39 @@ public class GameManager : MonoBehaviour
     public bool isPlaceMode;
     public bool isPlaceToBag;
     public DecorItem placeDecorItem = new DecorItem();
+    public string currentHair;
+    public string currentClothes;
+    public string currentBackground;
+
+    //캐릭터
+    public Image hairObj;
+    public Image clothesObj;
+    public Image bodyObj;
 
     public Dictionary<string, Decor> GetDecorDict()
     {
         return decorDict;
+    }
+    public void RemoveToDoList(string ToDoName)
+    {
+        playerInfo.toDoLists.Remove(ToDoName);
+        JsonSave(playerInfo, "PlayerInfo");
+    }
+    public void RemovePlacedDecor(int placedIndex, string parentName)
+    {
+        //정보에서 삭제
+        playerInfo.furnitures[parentName].placedItems.Remove(placedIndex.ToString());
+        //가구 가져오기
+        GameObject furniture = GameObject.Find($"Canvas/BackGround/{parentName}");
+        PlacePointScript child = furniture.transform.GetChild(placedIndex + 1).GetComponent<PlacePointScript>();
+        //인벤토리에 추가
+        AddInventory(child.decorItem);
+        gotDecorListScrollScript.RefreshDecorList();
+        //가구에서 삭제
+        child.ResetPoint();
+
+        //정보 저장
+        JsonSave<PlayerInfo>(playerInfo, "PlayerInfo");
     }
     public void RemoveGotDecorList(int index)
     {
@@ -80,6 +112,11 @@ public class GameManager : MonoBehaviour
                     money = 0,
                     level = 1,
                     exp = 0,
+                    hair = "Hair_000",
+                    clothes = "Clothes_000",
+                    backGround = "000",
+                    gotClothes = new List<int>(){0},
+                    gotHairs = new List<int>(){0},
                     toDoLists = new Dictionary<string, ToDoList>() { },
                     furnitures = new Dictionary<string, PlacedFurnitureInfo>()
                     {
@@ -158,22 +195,43 @@ public class GameManager : MonoBehaviour
     }
     public string DateParse(int year, int month, int day)
     {
-        string str = year + ".";
-        if (month / 10 > 0)
-        {
-            str += "0";
-        }
-        str += month + ".";
-        if (day / 10 > 0)
-        {
-            str += "0";
-        }
-        str += day;
+        string str = year + "." + month.ToString("D2") + "." + day.ToString("D2");
+        // if (month / 10 > 0)
+        // {
+        //     str += "0";
+        // }
+        // str += month + ".";
+        // if (day / 10 > 0)
+        // {
+        //     str += "0";
+        // }
+        // str += day;
         return str;
     }
     public void LoadPlaceFurniture()
     {
         if (playerInfo.furnitures.Count <= 0) return;
+    }
+    public void chgCharacterInfo(string hair, string clothes, string backGround)
+    {
+        playerInfo.hair = hair;
+        playerInfo.clothes = clothes;
+        playerInfo.backGround = backGround;
+        SavePlayerInfo();
+    }
+    public void chgHair(string selectHair)
+    {
+        //게임오브젝트 이미지 가져와서 어드레서블로 변경하기
+        hairObj.sprite = Addressables.LoadAssetAsync<Sprite>(selectHair).WaitForCompletion();
+        playerInfo.hair = selectHair;
+        SavePlayerInfo();
+    }
+    public void chgClothes(string selectClothes)
+    {
+        //게임오브젝트 이미지 가져와서 어드레서블로 변경하기
+        clothesObj.sprite = Addressables.LoadAssetAsync<Sprite>(selectClothes).WaitForCompletion();
+        playerInfo.clothes = selectClothes;
+        SavePlayerInfo();
     }
     void Start()
     {
@@ -184,6 +242,8 @@ public class GameManager : MonoBehaviour
         isPlaceMode = false;
         isPlaceToBag = false;
         mainCamera = Camera.main;
+
+        chgCharacterInfo(playerInfo.hair, playerInfo.clothes, playerInfo.backGround);
 
         List<ToDoList> savedToDoList = new List<ToDoList>() { };
         foreach (string key in playerInfo.toDoLists.Keys)
@@ -244,12 +304,26 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        //헤어랑 옷 변경
+        hairObj.sprite = Addressables.LoadAssetAsync<Sprite>(playerInfo.hair).WaitForCompletion();
+        clothesObj.sprite = Addressables.LoadAssetAsync<Sprite>(playerInfo.clothes).WaitForCompletion();
 
         //장식 인벤토리 초기화
         gotDecorListScrollScript.RefreshDecorList();
 
         //돈 UI 초기화
         UIManager.GetInstance().RefreshMoney();
+
+        //헤어 리스트
+        hairScrollView.SetHairList();
+
+        //옷 리스트
+        clothesScrollView.SetClothesList();
+    }
+    public void CharacterListClose()
+    {
+        hairScrollView.gameObject.transform.parent.parent.gameObject.SetActive(false);
+        clothesScrollView.gameObject.transform.parent.parent.gameObject.SetActive(false);
     }
 
     void Update()

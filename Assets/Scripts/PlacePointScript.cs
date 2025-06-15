@@ -15,6 +15,16 @@ public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public TextMeshProUGUI decorNameText;
     public bool isPlaced;
     public string placedIndex;
+    public void ResetPoint()
+    {
+        decorItem = new DecorItem();
+        decorImage.sprite = null;
+        isPlaced = false;
+        decorNameText.text = "";
+        Color color = decorImage.color;
+        color.a = 0f;
+        decorImage.color = color;
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         //ResetFields()
@@ -40,7 +50,7 @@ public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
         else
         {
             //상세 정보가 보이는 UI를 킴
-            ToDoListManager.GetInstance().SetDecorInfoPanel(decorItem);
+            ToDoListManager.GetInstance().SetDecorInfoPanel(decorItem, int.Parse(placedIndex), transform.parent.name);
         }
     }
 

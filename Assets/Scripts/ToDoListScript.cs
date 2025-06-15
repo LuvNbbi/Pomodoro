@@ -55,6 +55,9 @@ public class ToDoListScript : MonoBehaviour
 
     void DeleteButtonClicked()
     {
+        //플레이어 정보에서 제거
+        GameManager.GetInstance().RemoveToDoList(toDoListInfo.toDoName);
+        //오브젝트 제거
         Destroy(gameObject);
     }
 

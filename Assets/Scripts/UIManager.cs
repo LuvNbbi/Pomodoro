@@ -54,10 +54,25 @@ public class UIManager : MonoBehaviour
 
     //상점 ui
     public GameObject shopPanel;
+    public GameObject characterStylePanel;
 
 
     public Dictionary<string, TextMeshProUGUI> textUINames;
     public List<TMP_FontAsset> fontNames = new List<TMP_FontAsset>();
+
+    public List<StyleItem> clothesItems = new List<StyleItem>()
+    {
+        new StyleItem(){
+            type = "Clothes",
+            name = "Clothes_000",
+            spriteName = "Clothes_000"
+        },
+        new StyleItem(){
+            type = "Clothes",
+            name = "Clothes_001",
+            spriteName = "Clothes_001"
+        }
+    };
     // Start is called before the first frame update
     void Start()
     {
@@ -97,6 +112,10 @@ public class UIManager : MonoBehaviour
     void Update()
     {
 
+    }
+    public void CharacterStylePanelControl()
+    {
+        characterStylePanel.SetActive(!characterStylePanel.activeSelf);
     }
     public void ShopPanelControl()
     {

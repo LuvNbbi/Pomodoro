@@ -71,12 +71,13 @@ public class ToDoListManager : MonoBehaviour
 
     }
 
-    public void SetDecorInfoPanel(DecorItem selectDecor)
+    public void SetDecorInfoPanel(DecorItem selectDecor, int placedIndex, string parentName)
     {
         if (decorInfoImage == null)
         {
             Debug.Log($"decorInfoImage가 null입니다.");
         }
+        decorInfoPanel.transform.Find("DecorInfoPanel").GetComponent<DecorInfoPanelScript>().SetSelectedDecor(selectDecor, placedIndex, parentName);
         decorInfoImage.sprite = Addressables.LoadAssetAsync<Sprite>(selectDecor.spriteName).WaitForCompletion();
         decorInfoToDoNameTexts.text = selectDecor.name;
         decorInfoDateText.text = selectDecor.startDate + " ~ " + selectDecor.endDate;
@@ -118,18 +119,18 @@ public class ToDoListManager : MonoBehaviour
         endYearDropDown.value = 0;
         endMonthDropDown.value = 0;
         endDayDropDown.value = 0;
-        //StartRange
-        TextMeshProUGUI startRange = toDoList.transform.Find("StartRange").GetComponent<TextMeshProUGUI>();
-        script.toDoListInfo.startRange = changeToDoList.startRange;
-        startRange.text = changeToDoList.startRange.ToString();
-        //EndRange
-        TextMeshProUGUI endRange = toDoList.transform.Find("EndRange").GetComponent<TextMeshProUGUI>();
-        script.toDoListInfo.endRange = changeToDoList.endRange;
-        endRange.text = changeToDoList.endRange.ToString();
-        //RangeSlider
-        Slider rangeSlider = toDoList.transform.Find("RangeSlider").GetComponent<Slider>();
-        rangeSlider.minValue = changeToDoList.startRange;
-        rangeSlider.maxValue = changeToDoList.endRange;
+        // //StartRange
+        // TextMeshProUGUI startRange = toDoList.transform.Find("StartRange").GetComponent<TextMeshProUGUI>();
+        // script.toDoListInfo.startRange = changeToDoList.startRange;
+        // startRange.text = changeToDoList.startRange.ToString();
+        // //EndRange
+        // TextMeshProUGUI endRange = toDoList.transform.Find("EndRange").GetComponent<TextMeshProUGUI>();
+        // script.toDoListInfo.endRange = changeToDoList.endRange;
+        // endRange.text = changeToDoList.endRange.ToString();
+        // //RangeSlider
+        // Slider rangeSlider = toDoList.transform.Find("RangeSlider").GetComponent<Slider>();
+        // rangeSlider.minValue = changeToDoList.startRange;
+        // rangeSlider.maxValue = changeToDoList.endRange;
 
         //목표 content에 추가
         toDoList.transform.SetParent(ToDoContent.transform, false);
