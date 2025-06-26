@@ -46,7 +46,6 @@ public class ClothesScrollView : MonoBehaviour
             clothesSlot.transform.SetParent(transform, false);
             ClothesSlotScript script = clothesSlot.GetComponent<ClothesSlotScript>();
             script.SetClothesSlot(clothesName);
-            Debug.Log("생성 완료");
         }
     }
     // Start is called before the first frame update

@@ -45,7 +45,6 @@ public class HairScrollView : MonoBehaviour
                 hairSlot.transform.SetParent(transform, false);
                 HairSlotScript script = hairSlot.GetComponent<HairSlotScript>();
                 script.SetHairSlot(hairName);
-                Debug.Log("생성 완료");
             }
     }
     void Start()

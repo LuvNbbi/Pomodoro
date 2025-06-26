@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour
     //상점 ui
     public GameObject shopPanel;
     public GameObject characterStylePanel;
+    public Animator charStylePanel_Anim;
 
 
     public Dictionary<string, TextMeshProUGUI> textUINames;
@@ -113,9 +114,18 @@ public class UIManager : MonoBehaviour
     {
 
     }
-    public void CharacterStylePanelControl()
+    public void OpenCharacterStylePanel()
     {
-        characterStylePanel.SetActive(!characterStylePanel.activeSelf);
+        CharacterStylePanelControl(true);
+    }
+    public void CloseCharacterStylePanel()
+    {
+        CharacterStylePanelControl(false);
+    }
+    public void CharacterStylePanelControl(bool state)
+    {
+        if (charStylePanel_Anim.GetBool("isChange") == false) charStylePanel_Anim.SetBool("isChange", true);
+        charStylePanel_Anim.SetBool("isOpen", state);
     }
     public void ShopPanelControl()
     {
@@ -129,14 +139,6 @@ public class UIManager : MonoBehaviour
     public void BagPanelControl()
     {
         bagPanel.SetActive(!bagPanel.activeSelf);
-    }
-    public void ChangeUILanguage(int currentLanguage)
-    {
-        foreach (string key in textUINames.Keys)
-        {
-            textUINames[key].text = uiLanguageManager.GetUILanguage(key)[currentLanguage];
-            textUINames[key].font = fontNames[currentLanguage];
-        }
     }
 
     public void SettingPanelControl()

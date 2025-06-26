@@ -20,7 +20,6 @@ public class ClothesSlotScript : MonoBehaviour, IPointerClickHandler
     public void SetClothesSlot(StyleItem setStyleItem)
     {
         styleItem = setStyleItem;
-        Debug.Log($"{styleItem.spriteName} 이랑 {setStyleItem.spriteName}");
         //이미지 변경
         Image hairImage = transform.Find("Image").GetComponent<Image>();
         hairImage.sprite = Addressables.LoadAssetAsync<Sprite>(styleItem.spriteName).WaitForCompletion();

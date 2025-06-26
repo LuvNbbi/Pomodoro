@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class SettingManager : MonoBehaviour
 {
     private static SettingManager instance;
     public UIManager uiManager;
-    public int currentLanguage; // 0 영어 / 1 한국어 / 2 일본어
-    public List<string> languages = new List<string>() { "English", "한국어", "日本語"};
+    public int currentLanguage; // en 영어 / ko 한국어 / jp 일본어
+
+    public List<string> languageCodes = new List<string>() { "en", "ko", "ja" };
 
     //UI
     public TextMeshProUGUI currentLanguageText;
@@ -20,27 +22,25 @@ public class SettingManager : MonoBehaviour
     void Start()
     {
         uiManager = UIManager.GetInstance();
-        currentLanguage = 1;
+        currentLanguage = 0;
         leftButton.onClick.AddListener(LeftButtonClicked);
         rightButton.onClick.AddListener(RightButtonClicked);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void LeftButtonClicked()
     {
+        Debug.Log("언어 변경 버튼 클릭");
         currentLanguage -= 1;
-        if (currentLanguage < 0) currentLanguage = languages.Count - 1;
-        uiManager.ChangeUILanguage(currentLanguage);
+        if (currentLanguage < 0) currentLanguage = languageCodes.Count - 1;
+        Debug.Log($"{languageCodes[currentLanguage]}");
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(languageCodes[currentLanguage]);
     }
     public void RightButtonClicked()
     {
+        Debug.Log("언어 변경 버튼 클릭");
         currentLanguage += 1;
-        if (currentLanguage > languages.Count - 1) currentLanguage = 0;
-        uiManager.ChangeUILanguage(currentLanguage);
+        if (currentLanguage > languageCodes.Count - 1) currentLanguage = 0;
+        Debug.Log($"{languageCodes[currentLanguage]}");
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(languageCodes[currentLanguage]);
     }
 
     public int GetCurrentLanguage()

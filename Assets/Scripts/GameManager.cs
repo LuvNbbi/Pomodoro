@@ -100,7 +100,6 @@ public class GameManager : MonoBehaviour
     {
         // 파일 경로 만들기
         string filePath = Path.Combine(Application.persistentDataPath, jsonName + ".json");
-        Debug.Log(filePath);
 
         if (!File.Exists(filePath))
         {
@@ -195,18 +194,7 @@ public class GameManager : MonoBehaviour
     }
     public string DateParse(int year, int month, int day)
     {
-        string str = year + "." + month.ToString("D2") + "." + day.ToString("D2");
-        // if (month / 10 > 0)
-        // {
-        //     str += "0";
-        // }
-        // str += month + ".";
-        // if (day / 10 > 0)
-        // {
-        //     str += "0";
-        // }
-        // str += day;
-        return str;
+        return year + "." + month.ToString("D2") + "." + day.ToString("D2");
     }
     public void LoadPlaceFurniture()
     {
