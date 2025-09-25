@@ -19,6 +19,8 @@ public class DecorListScript : MonoBehaviour, IPointerClickHandler
         createDecoPanelScript.SetImage(decorName);
         //데코리스트 닫기
         createDecoPanelScript.DecorSelectPanelControl();
+        //장식 만드는 ui 켜기
+        GameObject.Find("Canvas").transform.Find("CreateDecoPanelBack").gameObject.SetActive(true);
     }
 
     void Start()

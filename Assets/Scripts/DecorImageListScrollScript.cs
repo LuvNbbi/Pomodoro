@@ -9,39 +9,66 @@ public class DecorImageListScrollScript : MonoBehaviour
 {
     public GameObject content;
     Dictionary<string, Decor> decorDict;
-    void Start()
+
+    public List<StyleItem> decorItems = new()
+    {
+        new StyleItem(){
+            type = "Decor",
+            name = "Decor_000",
+            spriteName = "Decor_000",
+            price = 0,
+            isOwned = false,
+            index = 0
+        },
+        new StyleItem(){
+            type = "Decor",
+            name = "Decor_001",
+            spriteName = "Decor_001",
+            price = 100,
+            isOwned = false,
+            index = 1
+        },
+        new StyleItem(){
+            type = "Decor",
+            name = "Decor_002",
+            spriteName = "Decor_002",
+            price = 100,
+            isOwned = false,
+            index = 2
+        },
+        new StyleItem(){
+            type = "Decor",
+            name = "Decor_003",
+            spriteName = "Decor_003",
+            price = 100,
+            isOwned = false,
+            index = 3
+        },
+    };
+    public void SetDecorList()
     {
         if (content == null)
         {
             content = transform.Find("Viewport/Content").gameObject;
         }
-        decorDict = GameManager.GetInstance().GetDecorDict();
+        List<int> gotDecors = GameManager.GetInstance().playerInfo.gotDecors;
+        Debug.Log($"GotDecor : {gotDecors[0]}");
         foreach (Transform child in content.transform)
         {
             Destroy(child.gameObject);
         }
-        foreach (string key in decorDict.Keys)
+        foreach (StyleItem decorName in decorItems)
         {
-            Decor decorItem = decorDict[key];
-            GameObject decorImageGoods = Addressables.InstantiateAsync("DecorImageGoods").WaitForCompletion();
-            decorImageGoods.transform.SetParent(content.transform, false);
-            //이름 변경
-            TextMeshProUGUI textObj = decorImageGoods.transform.Find("DecorNameText").GetComponent<TextMeshProUGUI>();
-            textObj.text = decorItem.name[SettingManager.GetInstance().currentLanguage];
-
-            //가격 변경
-            textObj = decorImageGoods.transform.Find("DecorImagePriceText").GetComponent<TextMeshProUGUI>();
-            textObj.text = decorItem.price.ToString();
-
-            //이미지 변경
-            Image image = decorImageGoods.transform.Find("Image").GetComponent<Image>();
-            image.sprite = Addressables.LoadAssetAsync<Sprite>(decorItem.spriteName).WaitForCompletion();
-
+            Debug.Log($"{decorName.name}, {decorName.index}");
+            if (gotDecors.Contains(decorName.index))
+            {
+                Debug.Log($"{decorName.name}");
+                decorName.isOwned = true;
+            }
+            GameObject decorSlot = Addressables.InstantiateAsync("DecorSlot").WaitForCompletion();
+            decorSlot.transform.SetParent(content.transform, false);
+            DecorSlotScript script = decorSlot.GetComponent<DecorSlotScript>();
+            script.SetDecorSlot(decorName);
         }
-    }
-
-    void Update()
-    {
-
     }
 }

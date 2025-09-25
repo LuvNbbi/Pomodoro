@@ -22,6 +22,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 438f9641e0acd524ab56ab8e3983dafc
+    m_Address: Decor_000
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59eed3a84e9cf9442a309b6c31739c42
+    m_Address: Decor_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 637c790fe10399444a20eb948b7e7453
     m_Address: TeddyBear
     m_ReadOnly: 0
@@ -29,6 +39,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 71da1aa2fd028c245985bb63fce9fe3d
     m_Address: Books
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f65466620a357e4ab814224e937b35b
+    m_Address: Decor_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7be682b2d944c640a2d492c611ce975
+    m_Address: Decor_001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -47,7 +47,7 @@ public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
             }
             isPlaced = true;
         }
-        else
+        else if (isPlaced == true)
         {
             //상세 정보가 보이는 UI를 킴
             ToDoListManager.GetInstance().SetDecorInfoPanel(decorItem, int.Parse(placedIndex), transform.parent.name);

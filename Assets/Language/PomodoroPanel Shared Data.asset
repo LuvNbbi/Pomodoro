@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: PomodoroPanel Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: PomodoroPanel
+  m_TableCollectionNameGuidString: 6e5def35829955f42a77a0fb44fe023a
+  m_Entries:
+  - m_Id: 25956892672
+    m_Key: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67916709888
+    m_Key: FocusTime
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72513667072
+    m_Key: BreakTime
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74736648192
+    m_Key: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 569077317632
+    m_Key: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 765765009408
+    m_Key: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1030815662080
+    m_Key: Change Focus Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1078421012480
+    m_Key: Change Break Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1128228372480
+    m_Key: Set
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1324429524992
+    m_Key: Focus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1327629778944
+    m_Key: Break
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4110072878126333954
+  references:
+    version: 2
+    RefIds:
+    - rid: 4110072878126333954
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1758723114957

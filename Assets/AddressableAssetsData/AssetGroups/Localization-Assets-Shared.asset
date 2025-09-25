@@ -34,6 +34,16 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e5def35829955f42a77a0fb44fe023a
+    m_Address: Assets/Language/PomodoroPanel Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dbd4e2ebf9c20ed439b8cd980e90ff2a
+    m_Address: Assets/Language/Shop Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ed15fa9b02068584b8ab9e610ecfd870
     m_Address: Assets/Language/New Table Shared Data.asset
     m_ReadOnly: 1

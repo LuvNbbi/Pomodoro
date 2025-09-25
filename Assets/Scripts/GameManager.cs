@@ -6,12 +6,15 @@ using Newtonsoft.Json;
 using System.IO;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    [Header("스크롤 뷰")]
     public HairScrollView hairScrollView;
     public ClothesScrollView clothesScrollView;
+    public DecorImageListScrollScript decorScrollView;
     public GotDecorListScrollScript gotDecorListScrollScript;
     public GotDecorListScript placeGotDecorList;
     public PlayerInfo playerInfo;
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
     public string currentHair;
     public string currentClothes;
     public string currentBackground;
+    public PomodoroManager pomodoroManager;
 
     //캐릭터
     public Image hairObj;
@@ -96,7 +100,7 @@ public class GameManager : MonoBehaviour
         playerInfo.toDoLists.Add(toDoList.toDoName, toDoList);
         SavePlayerInfo();
     }
-    private T JsonLoad<T>(string jsonName)
+    public T JsonLoad<T>(string jsonName)
     {
         // 파일 경로 만들기
         string filePath = Path.Combine(Application.persistentDataPath, jsonName + ".json");
@@ -116,13 +120,14 @@ public class GameManager : MonoBehaviour
                     backGround = "000",
                     gotClothes = new List<int>(){0},
                     gotHairs = new List<int>(){0},
+                    gotDecors = new(){0},
                     toDoLists = new Dictionary<string, ToDoList>() { },
                     furnitures = new Dictionary<string, PlacedFurnitureInfo>()
                     {
-                        {"BookShelf_001",new PlacedFurnitureInfo(){
-                            prefabName = "BookShelf_001",
-                            x = -195f,
-                            y = -56f,
+                        {"Shelf",new PlacedFurnitureInfo(){
+                            prefabName = "Shelf",
+                            x = -660f,
+                            y = -250f,
                             placedItems = new Dictionary<string, DecorItem>()
                             {
                                 {"0", new DecorItem()
@@ -137,10 +142,28 @@ public class GameManager : MonoBehaviour
                             }
                         }
                         },
-                        {"Window",new PlacedFurnitureInfo(){
+                        {"Shelf_2",new PlacedFurnitureInfo(){
+                            prefabName = "Shelf",
+                            x = 700f,
+                            y = -130f,
+                            placedItems = new Dictionary<string, DecorItem>()
+                            {
+                                {"0", new DecorItem()
+                                {
+                                    name = "테스트용",
+                                    spriteName = "FlowerVase",
+                                    startDate = "2025.06.04",
+                                    endDate = "2025.06.16",
+                                    memo = "흑흑"
+                                }
+                                }
+                            }
+                        }
+                        },
+                        { "Window",new PlacedFurnitureInfo(){
                             prefabName = "Window",
                             x = 0f,
-                            y = 5f,
+                            y = 180f,
 
                         }
                         }
@@ -245,18 +268,14 @@ public class GameManager : MonoBehaviour
             ToDoListManager.GetInstance().CreateToDoListObject(info);
         }
 
-        List<PlacedFurnitureInfo> placedFurnitures = new List<PlacedFurnitureInfo>();
         foreach (string key in playerInfo.furnitures.Keys)
         {
-            placedFurnitures.Add(playerInfo.furnitures[key]);
-        }
+            //불러온 PlayerInfo로 가구 배치
+            PlacedFurnitureInfo info = playerInfo.furnitures[key];
 
-        //불러온 PlayerInfo로 가구 배치
-        foreach (PlacedFurnitureInfo info in placedFurnitures)
-        {
             //일단 프리팹 생성
             GameObject furniture = Addressables.InstantiateAsync(info.prefabName).WaitForCompletion();
-            furniture.name = furniture.name.Split("(")[0];
+            furniture.name = key;
 
             //Canvas 밑의 BackGround의 자식으로 만듬
             furniture.transform.SetParent(GameObject.Find("Canvas/BackGround").transform, false);
@@ -274,23 +293,21 @@ public class GameManager : MonoBehaviour
             {
                 placePoints.Add(child.gameObject);
             }
-            if (placePoints.Count > 0)
-            {
-                placePoints.RemoveAt(0);
-            }
+
             //placedItems의 숫자만큼 가구 배치 Keys는 PlacePoint의 위치
             if (info.placedItems != null)
             {
                 Dictionary<string, DecorItem> dict = info.placedItems;
-                foreach (string key in dict.Keys)
+                foreach (string keyd in dict.Keys)
                 {
-                    GameObject selectPlacePoint = placePoints[int.Parse(key)];
-                    DecorItem selectDecorItem = dict[key];
+                    GameObject selectPlacePoint = placePoints[int.Parse(keyd)];
+                    DecorItem selectDecorItem = dict[keyd];
 
                     PlacePointScript script = selectPlacePoint.GetComponent<PlacePointScript>();
                     script.SetPlaceItemInfo(selectDecorItem);
                 }
             }
+
         }
         //헤어랑 옷 변경
         hairObj.sprite = Addressables.LoadAssetAsync<Sprite>(playerInfo.hair).WaitForCompletion();
@@ -307,11 +324,23 @@ public class GameManager : MonoBehaviour
 
         //옷 리스트
         clothesScrollView.SetClothesList();
+
+        //장식 리스트
+        decorScrollView.SetDecorList();
+
     }
     public void CharacterListClose()
     {
         hairScrollView.gameObject.transform.parent.parent.gameObject.SetActive(false);
         clothesScrollView.gameObject.transform.parent.parent.gameObject.SetActive(false);
+    }
+    public void pomoPanelMoveConst()
+    {
+        pomodoroManager.isAnim = !pomodoroManager.isAnim;
+    }
+    public void ExitBtnClicked()
+    {
+        Application.Quit();
     }
 
     void Update()

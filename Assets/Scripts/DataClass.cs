@@ -33,6 +33,7 @@ public class PlayerInfo
     public string backGround;
     public List<int> gotHairs;
     public List<int> gotClothes;
+    public List<int> gotDecors;
     public Dictionary<string, ToDoList> toDoLists;
     public Dictionary<string, PlacedFurnitureInfo> furnitures;
     public List<DecorItem> decorInventory;

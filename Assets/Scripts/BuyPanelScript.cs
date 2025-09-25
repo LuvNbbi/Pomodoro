@@ -27,6 +27,12 @@ public class BuyPanelScript : MonoBehaviour, IPointerClickHandler
                 GameManager.GetInstance().SavePlayerInfo();
                 transform.parent.parent.GetComponent<ClothesScrollView>().SetClothesList();
             }
+            else if (slotStyleItem.type == "Decor")
+            {
+                GameManager.GetInstance().playerInfo.gotDecors.Add(slotStyleItem.index);
+                GameManager.GetInstance().decorScrollView.SetDecorList();
+                GameManager.GetInstance().SavePlayerInfo();
+            }
             GameManager.GetInstance().playerInfo.money -= slotStyleItem.price;
             UIManager.GetInstance().RefreshMoney();
         }

@@ -23,6 +23,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ja
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 65004c53144bd5b4187b0ffbf906c347
+    m_Address: PomodoroPanel_ja
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91646623614b41b4eba514b6f8d03c30
+    m_Address: Shop_ja
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e32c831860053fd4db2d03ec075a5dbb
     m_Address: ToDoListTable_ja
     m_ReadOnly: 1

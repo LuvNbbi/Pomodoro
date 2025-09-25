@@ -22,7 +22,9 @@ public class SettingManager : MonoBehaviour
     void Start()
     {
         uiManager = UIManager.GetInstance();
-        currentLanguage = 0;
+        currentLanguage = GameManager.GetInstance().playerInfo.userSetting.language;
+        var locale = LocalizationSettings.AvailableLocales.GetLocale(languageCodes[currentLanguage]);
+        LocalizationSettings.SelectedLocale = locale;
         leftButton.onClick.AddListener(LeftButtonClicked);
         rightButton.onClick.AddListener(RightButtonClicked);
     }
@@ -31,7 +33,8 @@ public class SettingManager : MonoBehaviour
         Debug.Log("언어 변경 버튼 클릭");
         currentLanguage -= 1;
         if (currentLanguage < 0) currentLanguage = languageCodes.Count - 1;
-        Debug.Log($"{languageCodes[currentLanguage]}");
+        GameManager.GetInstance().playerInfo.userSetting.language = currentLanguage;
+        GameManager.GetInstance().SavePlayerInfo();
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(languageCodes[currentLanguage]);
     }
     public void RightButtonClicked()
@@ -39,7 +42,8 @@ public class SettingManager : MonoBehaviour
         Debug.Log("언어 변경 버튼 클릭");
         currentLanguage += 1;
         if (currentLanguage > languageCodes.Count - 1) currentLanguage = 0;
-        Debug.Log($"{languageCodes[currentLanguage]}");
+        GameManager.GetInstance().playerInfo.userSetting.language = currentLanguage;
+        GameManager.GetInstance().SavePlayerInfo();
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(languageCodes[currentLanguage]);
     }
 

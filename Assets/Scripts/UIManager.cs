@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class UIManager : MonoBehaviour
 
     //UI들
     //SettingPanel Text들
+    [Header("SettingPanel")]
     public TextMeshProUGUI settingPanelText;
     public TextMeshProUGUI languagePanelText;
     public TextMeshProUGUI currentLanguageText;
@@ -19,6 +21,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI closeButtonText;
 
     //Pomodoro Text들
+    [Header("Pomodoro")]
+    public GameObject PomodoroPanel;
     public TextMeshProUGUI focusText;
     public TextMeshProUGUI setTimeText;
     public TextMeshProUGUI playButtonText;
@@ -30,8 +34,12 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI focusTimeApplyText;
     public TextMeshProUGUI breakTimeApplyText;
     public TextMeshProUGUI loopButtonText;
+    public Animator pomoPanel_Anim;
+    public Button pomoOpenButton;
 
-    //목표 Texts   
+    //목표 Texts
+    [Header("ToDo")]
+    public GameObject toDoListPanel;
     public TextMeshProUGUI toDoListPanelName;
     //목표 추가 UI
     public GameObject AddToDoListPanel;
@@ -52,6 +60,7 @@ public class UIManager : MonoBehaviour
     //게임 머니 UI
     public TextMeshProUGUI moneyUI;
 
+    [Header("Shop, Character")]
     //상점 ui
     public GameObject shopPanel;
     public GameObject characterStylePanel;
@@ -114,6 +123,14 @@ public class UIManager : MonoBehaviour
     {
 
     }
+    public void ToDoPanelControl()
+    {
+        toDoListPanel.SetActive(!toDoListPanel.activeSelf);
+    }
+    public void PomodoroPanelControl()
+    {
+        PomodoroPanel.SetActive(!PomodoroPanel.activeSelf);
+    }
     public void OpenCharacterStylePanel()
     {
         CharacterStylePanelControl(true);
@@ -125,7 +142,21 @@ public class UIManager : MonoBehaviour
     public void CharacterStylePanelControl(bool state)
     {
         if (charStylePanel_Anim.GetBool("isChange") == false) charStylePanel_Anim.SetBool("isChange", true);
-        charStylePanel_Anim.SetBool("isOpen", state);
+        charStylePanel_Anim.SetBool("isOpen", !charStylePanel_Anim.GetBool("isOpen"));
+    }
+    public void PomoPanelControl()
+    {
+        if (pomoPanel_Anim.GetBool("isChange") == false) pomoPanel_Anim.SetBool("isChange", true);
+        pomoPanel_Anim.SetBool("isOpen", !pomoPanel_Anim.GetBool("isOpen"));
+        StartCoroutine(DisableForSeconds(pomoOpenButton, 0.5f));
+    }
+    private IEnumerator DisableForSeconds(Button target,float seconds)
+    {
+        Debug.Log("실행됨");
+        if (!target.interactable) Debug.Log("비활성화 상태");
+        target.interactable = false;
+        yield return new WaitForSeconds(seconds);
+        target.interactable = true;
     }
     public void ShopPanelControl()
     {

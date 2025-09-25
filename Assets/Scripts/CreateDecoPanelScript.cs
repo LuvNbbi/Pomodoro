@@ -68,9 +68,10 @@ public class CreateDecoPanelScript : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
-        Dictionary<string, Decor> decorDict = GameManager.GetInstance().decorDict;
-        foreach (string decorName in decorDict.Keys)
+        List<int> getDecorList = GameManager.GetInstance().playerInfo.gotDecors;
+        foreach (int decorIdx in getDecorList)
         {
+            string decorName = $"Decor_" + decorIdx.ToString("D3");
             //프리팹 생성
             GameObject decorList = Addressables.InstantiateAsync("DecorList").WaitForCompletion();
             decorList.transform.SetParent(decorListContent.transform, false);
@@ -81,7 +82,7 @@ public class CreateDecoPanelScript : MonoBehaviour
 
             //텍스트 변경
             TextMeshProUGUI decorListName = decorList.transform.Find("DecorNameText").GetComponent<TextMeshProUGUI>();
-            decorListName.text = decorDict[decorName].name[SettingManager.GetInstance().currentLanguage];
+            decorListName.text = "";
 
             //DecorListScript의 DecorName 넣기
             DecorListScript decorListScript = decorList.GetComponent<DecorListScript>();
@@ -89,7 +90,7 @@ public class CreateDecoPanelScript : MonoBehaviour
         }
 
         decorSelectPanel.SetActive(true);
-
+        gameObject.transform.parent.gameObject.SetActive(false);
     }
     public DecorItem CreateDecorItem()
     {
@@ -170,9 +171,4 @@ public class CreateDecoPanelScript : MonoBehaviour
         placeButton.onClick.AddListener(PlaceButtonClicked);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

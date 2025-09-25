@@ -17,6 +17,18 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3ada6f9b0154ecd45a5bd234a50c4e7f
   m_SerializeEntries:
+  - m_GUID: 0b39b59f72492254ebb1620b4ff9b72a
+    m_Address: PomodoroPanel_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51e3466f17bdded4b9404fdffb76b09f
+    m_Address: Shop_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 70477a8d06f19234282f4fd8e5c7d580
     m_Address: SetttingPanel_en
     m_ReadOnly: 1

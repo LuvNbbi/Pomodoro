@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Localization.Components;
 
 public class PomodoroManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class PomodoroManager : MonoBehaviour
     public GameObject playButton;
     public GameObject pomodoroSettingPanel;
     public AudioSource effectAudioSource;
+    public Animator pomoAnim;
+    public Button openCloseButton;
+    public AnimationClip openAnimClip;
 
     //세팅 패널 관련
     public GameObject focusInputField;
@@ -23,8 +27,8 @@ public class PomodoroManager : MonoBehaviour
     //언어들
     public List<string> focusTexts = new List<string>() { "Focus", "집중", "集中" };
     public List<string> breakTexts = new List<string>() { "Break", "휴식", "休息" };
-    public List<string> stopTexts = new List<string>() {"Stop","일시정지", "止める" };
-    public List<string> restartTexts = new List<string>() {"Restart", "재시작", "リスタート"};
+    public List<string> stopTexts = new List<string>() { "Pause", "일시정지", "一時停止" };
+    public List<string> restartTexts = new List<string>() { "Pause", "재시작", "再開" };
 
     //변수들
     public int setFocusTime;
@@ -33,6 +37,8 @@ public class PomodoroManager : MonoBehaviour
     public bool isPlay;
     public bool isLoop;
     public bool isFocus;
+    public bool isOpen;
+    public bool isAnim;
 
     //
     public SettingManager settingManager;
@@ -56,6 +62,7 @@ public class PomodoroManager : MonoBehaviour
         isPlay = false;
         isLoop = false;
         isFocus = false;
+        isOpen = false;
         //setTimeText 초기설정
         ChangeSetTimeText();
     }
@@ -246,31 +253,68 @@ public class PomodoroManager : MonoBehaviour
             //빈 공간으로 바꿈
         }
     }
+    public void PlayBtnClicked()
+    {
+        isPlay = true;
+        isFocus = true;
+        currentTime = 0f;
+        stopButtonPanel.SetActive(true);
+        playButton.SetActive(false);
+        focusText.gameObject.SetActive(true);
+        SetCurrentTimeText();
+    }
     public void PlayResetButtonClicked()
     {
-        isPlay = !isPlay;
-        isFocus = !isFocus;
+        isPlay = false;
+        isFocus = false;
         currentTime = 0f;
-        stopButtonPanel.SetActive(!stopButtonPanel.activeSelf);
-        playButton.SetActive(!playButton.activeSelf);
+        stopButtonPanel.SetActive(false);
+        playButton.SetActive(true);
         focusText.gameObject.SetActive(!focusText.gameObject.activeSelf);
         SetCurrentTimeText();
+        LocalizeStringEvent localizeEvent = stopButtonPanel.transform.Find("StopButton").Find("Text").GetComponent<LocalizeStringEvent>();
+        localizeEvent.StringReference.TableEntryReference = "PomodoroPanel";
+        localizeEvent.StringReference.TableEntryReference = "Pause";
+
     }
     public void StopButtonClicked()
     {
         isPlay = !isPlay;
-        TextMeshProUGUI text = stopButtonPanel.transform.Find("StopButton").Find("Text").GetComponent<TextMeshProUGUI>();
+        LocalizeStringEvent localizeEvent = stopButtonPanel.transform.Find("StopButton").Find("Text").GetComponent<LocalizeStringEvent>();
         if (isPlay)
         {
-            text.text = stopTexts[settingManager.GetCurrentLanguage()];
+            localizeEvent.StringReference.TableEntryReference = "PomodoroPanel";
+            localizeEvent.StringReference.TableEntryReference = "Pause";
         }
         else
         {
-            text.text = restartTexts[settingManager.GetCurrentLanguage()];
+            localizeEvent.StringReference.TableEntryReference = "PomodoroPanel";
+            localizeEvent.StringReference.TableEntryReference = "Resume";
         }
     }
     public void SettingButtonClicked()
     {
         pomodoroSettingPanel.SetActive(!pomodoroSettingPanel.activeSelf);
+    }
+
+    public void OpenCloseButtonClicked()
+    {
+
+        StartCoroutine(DisableForSeconds(openAnimClip.length));
+        if (isOpen) pomoAnim.SetFloat("Open", 1);
+        else pomoAnim.SetFloat("Open", -1);
+
+        isOpen = !isOpen;
+        Debug.Log($"pomoAnim : {pomoAnim.GetFloat("Open")}, interactable : {openCloseButton.interactable}");
+        pomoAnim.Play(openAnimClip.name);
+
+    }
+    private IEnumerator DisableForSeconds(float seconds)
+    {
+        Debug.Log("실행됨");
+        if (!openCloseButton.interactable) Debug.Log("비활성화 상태");
+        openCloseButton.interactable = false;
+        yield return new WaitForSeconds(seconds);
+        openCloseButton.interactable = true;
     }
 }
