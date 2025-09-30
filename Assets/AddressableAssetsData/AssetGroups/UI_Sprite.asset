@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a3b5751697e89a40b6b3701d576ca4b
+    m_Address: BG_TN_000
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 54cd35f3f9151fd4083e335da965087c
     m_Address: PlayIcon
     m_ReadOnly: 0
@@ -37,8 +42,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b39d15897be4e3b48b55089d2b15cd27
+    m_Address: BG_TN_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c3d2aed43d3599f40be89fd65d3c9f3a
     m_Address: OneIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc1e6946fa5b18e4987218d7f8567e2a
+    m_Address: BG_TN_001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

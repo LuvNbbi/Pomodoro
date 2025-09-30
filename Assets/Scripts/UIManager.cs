@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour
     private static UIManager instance;
     public SettingManager settingManager;
     public UILanguageManager uiLanguageManager;
-
+    [Header("MapPanel")]
+    public GameObject mapPanel;
     //UI들
     //SettingPanel Text들
     [Header("SettingPanel")]
@@ -66,23 +67,32 @@ public class UIManager : MonoBehaviour
     public GameObject characterStylePanel;
     public Animator charStylePanel_Anim;
 
+    [Header("Song")]
+    public GameObject songListPanel;
 
     public Dictionary<string, TextMeshProUGUI> textUINames;
-    public List<TMP_FontAsset> fontNames = new List<TMP_FontAsset>();
 
-    public List<StyleItem> clothesItems = new List<StyleItem>()
+    [Header("Ambience")]
+    public CanvasGroup ambiencePanel;
+    public void AmbiencePanelControl()
     {
-        new StyleItem(){
-            type = "Clothes",
-            name = "Clothes_000",
-            spriteName = "Clothes_000"
-        },
-        new StyleItem(){
-            type = "Clothes",
-            name = "Clothes_001",
-            spriteName = "Clothes_001"
+        if (ambiencePanel.alpha < 0.5f)
+        {
+            ambiencePanel.alpha = 1f;
+            ambiencePanel.interactable = true;
+            ambiencePanel.blocksRaycasts = true;
         }
-    };
+        else
+        {
+            ambiencePanel.alpha = 0f;
+            ambiencePanel.interactable = false;
+            ambiencePanel.blocksRaycasts = false;
+        }
+    }
+    public void SongListPanelControl()
+    {
+        songListPanel.SetActive(!songListPanel.activeSelf);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -119,9 +129,15 @@ public class UIManager : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    public void MapPanelControl()
     {
-
+        MapSelectScript uIFader = mapPanel.GetComponent<MapSelectScript>();
+        if (mapPanel.GetComponent<CanvasGroup>().alpha > 0.9f)
+        {
+            uIFader.FadeOut();
+        }
+        else
+            uIFader.FadeIn();
     }
     public void ToDoPanelControl()
     {

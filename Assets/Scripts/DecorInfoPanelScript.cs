@@ -6,21 +6,20 @@ public class DecorInfoPanelScript : MonoBehaviour
 {
     DecorItem selectedDecor;
     int placedIndex;
-    string parentName;
+    string objName;
     // Start is called before the first frame update
     void Start()
     {
         
     }
-    public void SetSelectedDecor(DecorItem decorItem, int chgPlacedIndex, string getParentName)
+    public void SetSelectedDecor(DecorItem decorItem, string objName)
     {
         selectedDecor = decorItem;
-        placedIndex = chgPlacedIndex;
-        parentName = getParentName;
+        this.objName = objName;
     }
     public void ToBagButtonClicked()
     {
-        GameManager.GetInstance().RemovePlacedDecor(placedIndex, parentName);
+        GameManager.GetInstance().RemovePlacedDecor(selectedDecor, objName);
         transform.parent.gameObject.SetActive(false);
     }
     // Update is called once per frame

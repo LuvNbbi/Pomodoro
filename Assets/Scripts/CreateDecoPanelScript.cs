@@ -128,12 +128,17 @@ public class CreateDecoPanelScript : MonoBehaviour
         ResetFields();
         Destroy(currentTodoListObj);
         transform.parent.gameObject.SetActive(false);
+
+        //돈 추가
+        GameManager.GetInstance().IncreaseGameMoney(100);
     }
     public void PlaceButtonClicked()
     {
         //GameManager의 Place메서드 실행
         GameManager.GetInstance().PlaceDecorItem(CreateDecorItem());
         transform.parent.gameObject.SetActive(false);
+        //돈 추가
+        GameManager.GetInstance().IncreaseGameMoney(100);
     }
     public void ResetFields()
     {

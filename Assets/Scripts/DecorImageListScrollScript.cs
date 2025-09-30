@@ -52,17 +52,14 @@ public class DecorImageListScrollScript : MonoBehaviour
             content = transform.Find("Viewport/Content").gameObject;
         }
         List<int> gotDecors = GameManager.GetInstance().playerInfo.gotDecors;
-        Debug.Log($"GotDecor : {gotDecors[0]}");
         foreach (Transform child in content.transform)
         {
             Destroy(child.gameObject);
         }
         foreach (StyleItem decorName in decorItems)
         {
-            Debug.Log($"{decorName.name}, {decorName.index}");
             if (gotDecors.Contains(decorName.index))
             {
-                Debug.Log($"{decorName.name}");
                 decorName.isOwned = true;
             }
             GameObject decorSlot = Addressables.InstantiateAsync("DecorSlot").WaitForCompletion();

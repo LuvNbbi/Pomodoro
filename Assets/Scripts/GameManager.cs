@@ -11,6 +11,8 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    [Header("배경")]
+    public GameObject backgroundUI;
     [Header("스크롤 뷰")]
     public HairScrollView hairScrollView;
     public ClothesScrollView clothesScrollView;
@@ -46,19 +48,18 @@ public class GameManager : MonoBehaviour
         playerInfo.toDoLists.Remove(ToDoName);
         JsonSave(playerInfo, "PlayerInfo");
     }
-    public void RemovePlacedDecor(int placedIndex, string parentName)
+    public void RemovePlacedDecor(DecorItem decorItem, string objName)
     {
         //정보에서 삭제
-        playerInfo.furnitures[parentName].placedItems.Remove(placedIndex.ToString());
-        //가구 가져오기
-        GameObject furniture = GameObject.Find($"Canvas/BackGround/{parentName}");
-        PlacePointScript child = furniture.transform.GetChild(placedIndex + 1).GetComponent<PlacePointScript>();
-        //인벤토리에 추가
-        AddInventory(child.decorItem);
-        gotDecorListScrollScript.RefreshDecorList();
-        //가구에서 삭제
-        child.ResetPoint();
+        playerInfo.backgrounds[playerInfo.backGround][objName] = new() { item = null, isPlaced = false };
 
+        //인벤토리에 추가
+        AddInventory(decorItem);
+        gotDecorListScrollScript.RefreshDecorList();
+        //
+        SetPlacePoint(backgroundUI.transform.Find("currentBG").gameObject);
+
+        backgroundUI.transform.Find("currentBG").gameObject.transform.Find(objName).GetComponent<PlacePointScript>().DeletePlaceItem();
         //정보 저장
         JsonSave<PlayerInfo>(playerInfo, "PlayerInfo");
     }
@@ -100,6 +101,10 @@ public class GameManager : MonoBehaviour
         playerInfo.toDoLists.Add(toDoList.toDoName, toDoList);
         SavePlayerInfo();
     }
+    public void AddGotBG(string bgNum)
+    {
+        playerInfo.gotBG.Add(bgNum);
+    }
     public T JsonLoad<T>(string jsonName)
     {
         // 파일 경로 만들기
@@ -117,11 +122,73 @@ public class GameManager : MonoBehaviour
                     exp = 0,
                     hair = "Hair_000",
                     clothes = "Clothes_000",
-                    backGround = "000",
-                    gotClothes = new List<int>(){0},
-                    gotHairs = new List<int>(){0},
-                    gotDecors = new(){0},
+                    backGround = "Background_000",
+                    gotClothes = new List<int>() { 0 },
+                    gotHairs = new List<int>() { 0 },
+                    gotDecors = new() { 0 },
+                    gotBG = new() { "000", "001" },
                     toDoLists = new Dictionary<string, ToDoList>() { },
+                    backgrounds = new()
+                    {
+                        {"Background_000", new()
+                        {
+                            {"PlacePoint_0", new()
+                            {
+                                item = new(){
+                                    name = "1234",
+                                    spriteName = "Decor_000",
+                                    startDate = "2025.09.26",
+                                    endDate = "2025.09.30",
+                                    memo = "21344",
+                                },
+                                isPlaced = true,
+                            }},
+                            {"PlacePoint_1", new()
+                            {
+                                item = null,
+                                isPlaced = false,
+                            }},
+                            {"PlacePoint_2", new()
+                            {
+                                item = null,
+                                isPlaced = false,
+                            }},
+                            {"PlacePoint_3", new()
+                            {
+                                item = null,
+                                isPlaced = false,
+                            }},
+                        }},
+                        {"Background_001", new()
+                        {
+                             {"PlacePoint_0", new()
+                            {
+                                item = new(){
+                                    name = "312312",
+                                    spriteName = "Decor_002",
+                                    startDate = "2025.09.26",
+                                    endDate = "2025.09.30",
+                                    memo = "321312",
+                                },
+                                isPlaced = true,
+                            }},
+                            {"PlacePoint_1", new()
+                            {
+                                item = null,
+                                isPlaced = false,
+                            }},
+                            {"PlacePoint_2", new()
+                            {
+                                item = null,
+                                isPlaced = false,
+                            }},
+                            {"PlacePoint_3", new()
+                            {
+                                item = null,
+                                isPlaced = false,
+                            }},
+                        }},
+                    },
                     furnitures = new Dictionary<string, PlacedFurnitureInfo>()
                     {
                         {"Shelf",new PlacedFurnitureInfo(){
@@ -160,13 +227,6 @@ public class GameManager : MonoBehaviour
                             }
                         }
                         },
-                        { "Window",new PlacedFurnitureInfo(){
-                            prefabName = "Window",
-                            x = 0f,
-                            y = 180f,
-
-                        }
-                        }
 
                     },
                     decorInventory = new List<DecorItem>(),
@@ -268,50 +328,17 @@ public class GameManager : MonoBehaviour
             ToDoListManager.GetInstance().CreateToDoListObject(info);
         }
 
-        foreach (string key in playerInfo.furnitures.Keys)
-        {
-            //불러온 PlayerInfo로 가구 배치
-            PlacedFurnitureInfo info = playerInfo.furnitures[key];
 
-            //일단 프리팹 생성
-            GameObject furniture = Addressables.InstantiateAsync(info.prefabName).WaitForCompletion();
-            furniture.name = key;
+        //Json의 backGround를 보고 프리팹 불러옴
+        GameObject startBG = Addressables.InstantiateAsync(playerInfo.backGround).WaitForCompletion();
+        startBG.name = "currentBG";
+        startBG.transform.SetParent(backgroundUI.transform, false);
 
-            //Canvas 밑의 BackGround의 자식으로 만듬
-            furniture.transform.SetParent(GameObject.Find("Canvas/BackGround").transform, false);
-
-            //위치를 변경함
-            RectTransform rect = furniture.GetComponent<RectTransform>();
-            rect.anchoredPosition = new Vector2(info.x, info.y);
-
-            //자식 위치 변경
-            furniture.transform.SetSiblingIndex(info.siblingIndex);
-
-            //가구가 가지고 있는 모든 PlacePoint를 모음 (모든 자식을 가져온 뒤 맨 첫번째꺼를 제외하고 나머지가 PlacePoint)
-            List<GameObject> placePoints = new List<GameObject>();
-            foreach (Transform child in furniture.transform)
-            {
-                placePoints.Add(child.gameObject);
-            }
-
-            //placedItems의 숫자만큼 가구 배치 Keys는 PlacePoint의 위치
-            if (info.placedItems != null)
-            {
-                Dictionary<string, DecorItem> dict = info.placedItems;
-                foreach (string keyd in dict.Keys)
-                {
-                    GameObject selectPlacePoint = placePoints[int.Parse(keyd)];
-                    DecorItem selectDecorItem = dict[keyd];
-
-                    PlacePointScript script = selectPlacePoint.GetComponent<PlacePointScript>();
-                    script.SetPlaceItemInfo(selectDecorItem);
-                }
-            }
-
-        }
+        //Json의 backgrounds를 보고 배경에 저장된 장식을 불러옴
+        SetPlacePoint(startBG);
         //헤어랑 옷 변경
-        hairObj.sprite = Addressables.LoadAssetAsync<Sprite>(playerInfo.hair).WaitForCompletion();
-        clothesObj.sprite = Addressables.LoadAssetAsync<Sprite>(playerInfo.clothes).WaitForCompletion();
+        //hairObj.sprite = Addressables.LoadAssetAsync<Sprite>(playerInfo.hair).WaitForCompletion();
+        //clothesObj.sprite = Addressables.LoadAssetAsync<Sprite>(playerInfo.clothes).WaitForCompletion();
 
         //장식 인벤토리 초기화
         gotDecorListScrollScript.RefreshDecorList();
@@ -342,12 +369,35 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
+    public void ChgBackground(string bgName)
+    {
+        playerInfo.backGround = bgName;
+        foreach (Transform child in backgroundUI.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        GameObject newBG = Addressables.InstantiateAsync(bgName).WaitForCompletion();
+        newBG.name = "currentBG";
+        newBG.transform.SetParent(backgroundUI.transform, false);
+        SetPlacePoint(newBG);
+        UIManager.GetInstance().MapPanelControl();
+        SavePlayerInfo();
+    }
+    private void SetPlacePoint(GameObject currentBG)
+    {
+        Dictionary<string, PlacePoint> placePoints = playerInfo.backgrounds[playerInfo.backGround];
+        foreach (string key in placePoints.Keys)
+        {
+            if (!placePoints[key].isPlaced) continue;
+            currentBG.transform.Find(key).GetComponent<PlacePointScript>().SetPlaceItemInfo(placePoints[key].item);
+        }
+    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            uiManager.SettingPanelControl();
+            playerInfo.money += 1000;
         }
     }
 

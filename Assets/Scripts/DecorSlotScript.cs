@@ -24,7 +24,6 @@ public class DecorSlotScript : MonoBehaviour, IPointerClickHandler
         styleItem = setStyleItem;
         //이미지 변경
         Image hairImage = transform.Find("Image").GetComponent<Image>();
-        Debug.Log($"{styleItem.spriteName}");
         hairImage.sprite = Addressables.LoadAssetAsync<Sprite>(styleItem.spriteName).WaitForCompletion();
 
         //가격 변경

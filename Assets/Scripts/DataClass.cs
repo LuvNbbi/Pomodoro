@@ -34,11 +34,19 @@ public class PlayerInfo
     public List<int> gotHairs;
     public List<int> gotClothes;
     public List<int> gotDecors;
+    public List<string> gotBG;
     public Dictionary<string, ToDoList> toDoLists;
+    public Dictionary<string, Dictionary<string, PlacePoint>> backgrounds;
     public Dictionary<string, PlacedFurnitureInfo> furnitures;
     public List<DecorItem> decorInventory;
     public Dictionary<string, bool> decor;
     public UserSetting userSetting;
+}
+[Serializable]
+public class PlacePoint
+{
+    public DecorItem item;
+    public bool isPlaced;
 }
 [Serializable]
 public class PlacedFurnitureInfo

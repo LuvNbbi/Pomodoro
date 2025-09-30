@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.AddressableAssets;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -29,12 +30,27 @@ public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         //ResetFields()
         //Destroy
-        if (GameManager.GetInstance().isPlaceMode && !isPlaced)
+        if (GameManager.GetInstance().isPlaceMode)
         {
+            if (isPlaced)
+            {
+                GameManager.GetInstance().AddInventory(decorItem);
+                GameManager.GetInstance().gotDecorListScrollScript.RefreshDecorList();
+            }
             decorItem = GameManager.GetInstance().placeDecorItem;
             decorImage.sprite = Addressables.LoadAssetAsync<Sprite>(decorItem.spriteName).WaitForCompletion();
             decorNameText.text = decorItem.name;
-            GameManager.GetInstance().playerInfo.furnitures[gameObject.transform.parent.name].placedItems.Add(placedIndex, decorItem);
+            string currentBG = GameManager.GetInstance().playerInfo.backGround;
+            Dictionary<string, PlacePoint> placePoints = GameManager.GetInstance().playerInfo.backgrounds[currentBG];
+            if (placePoints.ContainsKey(gameObject.name))
+            {
+                placePoints[gameObject.name] = new()
+                {
+                    item = decorItem,
+                    isPlaced = true
+                };
+            }
+            GameManager.GetInstance().playerInfo.backgrounds[currentBG] = placePoints;
             GameManager.GetInstance().playerInfo.toDoLists.Remove(decorItem.name);
             GameManager.GetInstance().SavePlayerInfo();
             GameManager.GetInstance().EndPlaceMode();
@@ -47,10 +63,10 @@ public class PlacePointScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
             }
             isPlaced = true;
         }
-        else if (isPlaced == true)
+        else if (isPlaced)
         {
             //상세 정보가 보이는 UI를 킴
-            ToDoListManager.GetInstance().SetDecorInfoPanel(decorItem, int.Parse(placedIndex), transform.parent.name);
+            ToDoListManager.GetInstance().SetDecorInfoPanel(decorItem, gameObject.name);
         }
     }
 

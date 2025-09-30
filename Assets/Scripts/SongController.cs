@@ -3,13 +3,17 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System.Linq;
 
 public class SongController : MonoBehaviour
 {
     public AudioSource audioSource;
     public List<AudioClip> audioClips;
 
+    [Header("UI")]
+    public GameObject songListContent;
     public TextMeshProUGUI songNameText;
+    public TextMeshProUGUI artistNameText;
     public TextMeshProUGUI songTimeText;
     public Image PauseButtonImage;
     public Image RepeatButtonImage;
@@ -31,11 +35,11 @@ public class SongController : MonoBehaviour
     public RepeatMode repeatMode = RepeatMode.All;
 
     private string FormatTime(float time)
-{
-    int minutes = Mathf.FloorToInt(time / 60f);
-    int seconds = Mathf.FloorToInt(time % 60f);
-    return $"{minutes}:{seconds:D2}";
-}
+    {
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+        return $"{minutes}:{seconds:D2}";
+    }
 
     void Start()
     {
@@ -46,8 +50,31 @@ public class SongController : MonoBehaviour
             originalOrder = new List<AudioClip>(audioClips);
             PlayCurrentTrack();
         }
+        volumeSlider.value = audioSource.volume;
+        volumeSlider.onValueChanged.AddListener(ChangeVolume);
+        int cnt = 0;
+        foreach (AudioClip audioClip in audioClips)
+        {
+            List<string> songInfo = audioClip.name.Split(";").ToList();
+            GameObject songPanel = Addressables.InstantiateAsync("SongPanel").WaitForCompletion();
+            songPanel.name = audioClip.name;
+            songPanel.transform.Find("SongNameText").GetComponent<TextMeshProUGUI>().text = songInfo[0];
+            songPanel.transform.Find("ArtistNameText").GetComponent<TextMeshProUGUI>().text = songInfo[1];
+            int localCnt = cnt;
+            songPanel.GetComponent<Button>().onClick.AddListener(() => ChgSongBtn(audioClip, localCnt));
+            songPanel.transform.SetParent(songListContent.transform, false);
+            cnt++;
+        }
     }
-
+    void ChangeVolume(float value)
+    {
+        audioSource.volume = value;
+    }
+    void ChgSongBtn(AudioClip clip, int idx)
+    {
+        currentTrackIndex = idx;
+        PlayCurrentTrack();
+    }
     void Update()
     {
         if (!audioSource.isPlaying && !isPaused && audioClips.Count > 0)
@@ -72,12 +99,12 @@ public class SongController : MonoBehaviour
         UpdateUI();
     }
     public void SeekTo(float normalizedValue)
-{
-    if (audioSource.clip != null)
     {
-        audioSource.time = normalizedValue * audioSource.clip.length;
+        if (audioSource.clip != null)
+        {
+            audioSource.time = normalizedValue * audioSource.clip.length;
+        }
     }
-}
     public void SetVolume()
     {
         float value = volumeSlider.value;
@@ -88,9 +115,11 @@ public class SongController : MonoBehaviour
     {
         audioSource.clip = audioClips[currentTrackIndex];
         audioSource.Play();
-
+        List<string> songInfo = audioClips[currentTrackIndex].name.Split(";").ToList();
         if (songNameText != null)
-            songNameText.text = audioClips[currentTrackIndex].name;
+            songNameText.text = songInfo[0];
+        if (artistNameText != null)
+            artistNameText.text = songInfo[1];
     }
 
     public void PlayNextTrack()
@@ -140,7 +169,7 @@ public class SongController : MonoBehaviour
     public void ToggleRepeatMode()
     {
         repeatMode = (RepeatMode)(((int)repeatMode + 1) % 3);
-        RepeatButtonImage.sprite = Addressables.LoadAssetAsync<Sprite>(repeatMode.ToString()+"Icon").WaitForCompletion();
+        RepeatButtonImage.sprite = Addressables.LoadAssetAsync<Sprite>(repeatMode.ToString() + "Icon").WaitForCompletion();
         Debug.Log("Repeat mode: " + repeatMode);
     }
 
@@ -156,20 +185,20 @@ public class SongController : MonoBehaviour
         }
     }
 
-private void UpdateUI()
-{
-    // 프로그레스 바
-    if (progressBar != null && audioSource.clip != null && !isDragging)
+    private void UpdateUI()
     {
-        progressBar.value = audioSource.time / audioSource.clip.length;
-    }
+        // 프로그레스 바
+        if (progressBar != null && audioSource.clip != null && !isDragging)
+        {
+            progressBar.value = audioSource.time / audioSource.clip.length;
+        }
 
-    // 시간 표시
-    if (songTimeText != null && audioSource.clip != null)
-    {
-        string current = FormatTime(audioSource.time);
-        string total = FormatTime(audioSource.clip.length);
-        songTimeText.text = $"{current} / {total}";
+        // 시간 표시
+        if (songTimeText != null && audioSource.clip != null)
+        {
+            string current = FormatTime(audioSource.time);
+            string total = FormatTime(audioSource.clip.length);
+            songTimeText.text = $"{current} / {total}";
+        }
     }
-}
 }

@@ -71,13 +71,13 @@ public class ToDoListManager : MonoBehaviour
 
     }
 
-    public void SetDecorInfoPanel(DecorItem selectDecor, int placedIndex, string parentName)
+    public void SetDecorInfoPanel(DecorItem selectDecor, string objName)
     {
         if (decorInfoImage == null)
         {
             Debug.Log($"decorInfoImage가 null입니다.");
         }
-        decorInfoPanel.transform.Find("DecorInfoPanel").GetComponent<DecorInfoPanelScript>().SetSelectedDecor(selectDecor, placedIndex, parentName);
+        decorInfoPanel.transform.Find("DecorInfoPanel").GetComponent<DecorInfoPanelScript>().SetSelectedDecor(selectDecor, objName);
         decorInfoImage.sprite = Addressables.LoadAssetAsync<Sprite>(selectDecor.spriteName).WaitForCompletion();
         decorInfoToDoNameTexts.text = selectDecor.name;
         decorInfoDateText.text = selectDecor.startDate + " ~ " + selectDecor.endDate;

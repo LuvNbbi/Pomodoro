@@ -31,6 +31,10 @@ MonoBehaviour:
     m_Key: Decor
     m_Metadata:
       m_Items: []
+  - m_Id: 933773204439040
+    m_Key: Buy
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

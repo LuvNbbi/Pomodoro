@@ -34,6 +34,10 @@ MonoBehaviour:
     m_Localized: Decor
     m_Metadata:
       m_Items: []
+  - m_Id: 933773204439040
+    m_Localized: Buy
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
